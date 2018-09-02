@@ -19,7 +19,7 @@
 #define COMMON_STRUCTS_CPP
 
 #include "global.h"
-// #define USE_JSON 1
+ //#define USE_JSON 1
 
 #include "common_data_types.h"
 
@@ -400,6 +400,25 @@ typedef struct
     /* BDS register present */
     t_Byte value[M_BDS_REGISTER_LENGTH];
     /* Value of BDS register */
+
+#if USE_JSON
+    void toJSON (nlohmann::json& j, const string& name)
+    {
+        if (present)
+        {
+            char buffer [2*M_BDS_REGISTER_LENGTH+1];
+            buffer[2*M_BDS_REGISTER_LENGTH] = 0;
+            for(unsigned int j = 0; j < M_BDS_REGISTER_LENGTH; j++)
+                sprintf(&buffer[2*j], "%02X", value[j]);
+
+            j[name]["number"] = number;
+            j[name]["value"] = buffer;
+        }
+        else
+            j[name] = nullptr;
+
+    }
+#endif
 } t_BDS_Register;
 
 /* Callsign: */
@@ -2727,6 +2746,19 @@ typedef struct
     /* SSR mode S MB data present */
     t_BDS_Register value[M_MAX_BDS_REGISTERS];
     /* Values of downloaded BDS registers */
+#if USE_JSON
+    void toJSON (nlohmann::json& j, const string& name)
+    {
+        if (present)
+        {
+            for (int cnt=0; cnt < count; ++cnt)
+                value[cnt].toJSON(j, "bds"+std::to_string(cnt));
+        }
+        else
+            j[name] = nullptr;
+
+    }
+#endif
 } t_Mode_S_MB_Data;
 
 /* SSR mode S ME information: */
@@ -4479,8 +4511,11 @@ typedef struct
         barometric_vertical_rate.toJSON(j, "barometric_vertical_rate");
         /* Barometric vertical rate */
 
-//        t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
-//        /* BDS registers */
+        // t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
+        for (unsigned int cnt=0; cnt < M_MAX_BDS_REGISTERS; cnt++)
+            if (bds_registers[cnt].present)
+                bds_registers[cnt].toJSON(j, "bds"+std::to_string(cnt));
+        /* BDS registers */
 
 //        t_Tres compact_position_reporting;
 //        j["compact_position_reporting"] = convertToJSON(compact_position_reporting);
@@ -4824,8 +4859,11 @@ typedef struct
         j["asterix_category"] = asterix_category;
         /* ASTERIX category */
 
-//        t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
-//        /* BDS registers */
+        // t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
+        for (unsigned int cnt=0; cnt < M_MAX_BDS_REGISTERS; cnt++)
+            if (bds_registers[cnt].present)
+                bds_registers[cnt].toJSON(j, "bds"+std::to_string(cnt));
+        /* BDS registers */
 
         // t_Communications_Capability communications_capability;
         communications_capability.toJSON(j, "communications_capability");
@@ -5405,8 +5443,11 @@ typedef struct
         azimuth_difference.toJSON(j, "azimuth_difference");
         /* Azimuth difference between PSR and SSR plot */
 
-//        t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
-//        /* BDS registers */
+        // t_BDS_Register bds_registers[M_MAX_BDS_REGISTERS];
+        for (unsigned int cnt=0; cnt < M_MAX_BDS_REGISTERS; cnt++)
+            if (bds_registers[cnt].present)
+                bds_registers[cnt].toJSON(j, "bds"+std::to_string(cnt));
+        /* BDS registers */
 
         // t_Doppler_Speed calculated_doppler_speed;
         calculated_doppler_speed.toJSON(j, "calculated_doppler_speed");
@@ -6621,8 +6662,9 @@ typedef struct
         mode_of_flight.toJSON(j, "mode_of_flight");
         /* Calculated mode of flight */
 
-//        t_Mode_S_MB_Data mode_s_mb_data;
-//        /* SSR mode S MB data (BDS registers) */
+        // t_Mode_S_MB_Data mode_s_mb_data;
+        mode_s_mb_data.toJSON(j, "bds");
+        /* SSR mode S MB data (BDS registers) */
 
         // t_Tres multi_sensor_track;
         j ["multi_sensor_track"] = convertToJSON(multi_sensor_track);
