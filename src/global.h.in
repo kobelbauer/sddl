@@ -1,0 +1,7 @@
+#ifndef GLOBAL_H_
+#define GLOBAL_H_
+
+//std::string my_var = "@MY_VAR@";
+#define USE_JSON @USE_JSON@
+//static const std::string CMAKE_INSTALL_PREFIX = "@CMAKE_INSTALL_PREFIX@";
+#endif
