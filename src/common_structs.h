@@ -18,8 +18,8 @@
 #ifndef COMMON_STRUCTS_CPP
 #define COMMON_STRUCTS_CPP
 
-//#include "global.h"
- #define USE_JSON 1
+#include "global.h"
+// #define USE_JSON 1
 
 #include "common_data_types.h"
 
