@@ -118,6 +118,14 @@ Licenses
 The source code is released under GNU GPLv3:
 https://www.gnu.org/licenses/gpl-3.0.en.html
 
+Please also note that the JSON functions are provided using:
+    __ _____ _____ _____
+ __|  |   __|     |   | |  JSON for Modern C++
+|  |  |__   |  |  | | | |  version 3.1.2
+|_____|_____|_____|_|___|  https://github.com/nlohmann/json
+Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+Copyright (c) 2013-2018 Niels Lohmann <http://nlohmann.me>.
+
 Disclaimer
 ----------
 
