@@ -4487,6 +4487,9 @@ typedef struct
 #if USE_JSON
     void toJSON (nlohmann::json& j)
     {
+        j["message_type"] = "ads-b target";
+        j["version"] = "1.0";
+
         // t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
         acas_resolution_advisory_report.toJSON(j, "acas_resolution_advisory_report");
         /* ACAS resolution advisory report */
@@ -4851,6 +4854,9 @@ typedef struct
 #if USE_JSON
     void toJSON (nlohmann::json& j)
     {
+        j["message_type"] = "mlat target";
+        j["version"] = "1.0";
+
         // t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
         acas_resolution_advisory_report.toJSON(j, "acas_resolution_advisory_report");
         /* ACAS resolution advisory report */
@@ -5163,6 +5169,9 @@ typedef struct
 #if USE_JSON
     void toJSON (nlohmann::json& j)
     {
+        j["message_type"] = "radar service";
+        j["version"] = "1.0";
+
         // t_Rsrv_Type rsrv_type;
         j["rsrv_type"] = convertToJSON(rsrv_type);
         /* Type of radar service message */
@@ -5419,6 +5428,9 @@ typedef struct
 #if USE_JSON
     void toJSON (nlohmann::json& j)
     {
+        j["message_type"] = "radar target";
+        j["version"] = "1.0";
+
         // t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
         acas_resolution_advisory_report.toJSON(j, "acas_resolution_advisory_report");
         /* ACAS resolution advisory report */
@@ -6112,6 +6124,9 @@ typedef struct
 #if USE_JSON
     void toJSON (nlohmann::json& j)
     {
+        j["message_type"] = "track update";
+        j["version"] = "1.0";
+
         // t_Byte asterix_category;
         j ["asterix_category"] = asterix_category;
         /* ASTERIX category */
