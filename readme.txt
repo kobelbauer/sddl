@@ -1,6 +1,6 @@
 Description
 -----------
-Based on a ASTERIX recording, recorded air traffic surveillance data can be listed and converted to JSON.
+Based on an ASTERIX recording, recorded air traffic surveillance data can be listed and converted to JSON.
 
 Feature Summary
 ---------------
