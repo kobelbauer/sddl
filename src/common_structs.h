@@ -575,7 +575,7 @@ typedef struct
                 j[name]["source_info"] = "assumed height";
                 break;
             case 4:
-                j[name]["source_info"] = "3no source";
+                j[name]["source_info"] = "no source";
                 break;
             case 5:
                 j[name]["source_info"] = "GNSS";
