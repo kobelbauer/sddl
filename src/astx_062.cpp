@@ -20,7 +20,7 @@
 /* File:           src/astx_062.cpp                                           */
 /* Contents:       Process ASTERIX category 062 data block                    */
 /* Author(s):      kb                                                         */
-/* Last change:    2018-07-29                                                 */
+/* Last change:    2018-09-30                                                 */
 /*----------------------------------------------------------------------------*/
 
 /* Reference document:
@@ -5020,12 +5020,12 @@ static t_Retc proc_i062_spf (t_Ui16 length, t_Byte *buffer, t_Ui16 *pos_ptr);
 			int kx;
 
 			list_text (2, ";    BDS ");
-			bdsreg = mb_data[k][0];
+			bdsreg = mb_data[k][7];
 			list_text (2, M_FMT_BYTE "," M_FMT_BYTE ": 0x",
                           (bdsreg >> 4) & 0x0f, bdsreg & 0xf);
 			for (kx = 0; kx < M_BDS_REGISTER_LENGTH; kx ++)
 			{
-				list_text (2, " " M_FMT_BYTE_HEX, mb_data[k][1 + kx]);
+				list_text (2, " " M_FMT_BYTE_HEX, mb_data[k][kx]);
 			}
 			list_text (2, "\n");
 		}
