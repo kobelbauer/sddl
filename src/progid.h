@@ -47,6 +47,6 @@
 #define M_DISCL3 "Users are invited to report issues or requests for improvement\n"\
                  " however the provider has no obligation to process users\'"\
                  " requests and\n provide fixes and/or enhancements."
-#define M_E_MAIL "kb@aatc.at"
+#define M_E_MAIL "sddl@gmx.at"
 
 #endif /* INCLUDED_PROGID_H */

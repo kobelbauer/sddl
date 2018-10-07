@@ -37,6 +37,8 @@
 #include <sys/time.h>
 #include <time.h>
 
+#include "global.h"
+
 #if USE_JSON
 #include "jsonwriter.h"
 #endif
@@ -388,7 +390,7 @@ static void print_subtypes (void);
 	struct timeval tv1;
                    /* Time at end */
 
-	printf ("*** " M_PROMPT "\t\t\t   " M_VERSNO " ***\n");
+    printf ("*** " M_PROMPT "\t\t\t   %s ***\n", PACKAGE_VERSION.c_str());
 	printf (M_COPYRT "\n");
 	printf ("\n");
 	printf (M_DISCL1 "\n");
@@ -667,7 +669,7 @@ static void print_subtypes (void);
 		}
 
 		list_text (-1, "; list of file '%s':\n", input_path);
-		list_text (-1, "; printed %s by %s (%s)\n", tmp, M_PRGNAM, M_VERSNO);
+        list_text (-1, "; printed %s by %s (%s)\n", tmp, M_PRGNAM, PACKAGE_VERSION);
 		list_text (-1, "\n");
 	}
 #endif /* LISTER */
