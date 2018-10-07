@@ -20,7 +20,7 @@
 /* File:           src/progid.h                                               */
 /* Contents:       Program identity and version definitions                   */
 /* Author(s):      kb                                                         */
-/* Last change:    2018-07-29                                                 */
+/* Last change:    2018-09-30                                                 */
 /*----------------------------------------------------------------------------*/
 
 #ifndef INCLUDED_PROGID_H
@@ -34,7 +34,7 @@
 #define M_PRGNAM "sddl"
 #define M_PROMPT "Surveillance Data Decoder and Lister"
 
-#define M_VERSNO "Version V0.42-001b"
+#define M_VERSNO "Version V0.42-001c"
 #define M_COPYRT "2000-2018 by Helmut Kobelbauer, Sinabelkirchen/Austria."
 #define M_DISCL1 "SDDL is free software: you can redistribute it and/or modify it under\n" \
                  " the terms of the GNU General Public License as published by the Free Software\n" \
@@ -47,6 +47,6 @@
 #define M_DISCL3 "Users are invited to report issues or requests for improvement\n"\
                  " however the provider has no obligation to process users\'"\
                  " requests and\n provide fixes and/or enhancements."
-#define M_E_MAIL "kb@aatc.at"
+#define M_E_MAIL "sddl@gmx.at"
 
 #endif /* INCLUDED_PROGID_H */
