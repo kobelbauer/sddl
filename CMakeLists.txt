@@ -5,6 +5,8 @@ set ( CMAKE_BUILD_TYPE Debug )
 set(CMAKE_CXX_FLAGS_MYREL "-O3")
 #set ( CMAKE_BUILD_TYPE Release )
 
+set (CMAKE_CXX_STANDARD 11)
+
 set(SDDL "${CMAKE_CURRENT_SOURCE_DIR}")
 message("  Path: ${SDDL}")
 
@@ -26,7 +28,7 @@ add_definitions ( -Wall) #-pedantic -Werror -ansi -c -I.  -std=c++11
 #SET(CMAKE_C_COMPILER g++)
 
 add_library(libsddl "")
-set_property(TARGET libsddl PROPERTY C_STANDARD 11)
+#set_property(TARGET libsddl PROPERTY C_STANDARD 11)
 
 message("Install path: ${CMAKE_INSTALL_PREFIX}")
 
@@ -65,7 +67,7 @@ include(src/CMakeLists.txt)
 
 configure_file(src/global.h.in include/global.h)
 
-set_property(TARGET sddl PROPERTY C_STANDARD 11)
+#set_property(TARGET sddl PROPERTY C_STANDARD 11)
 
 IF (USE_JSON)
 target_link_libraries ( sddl
