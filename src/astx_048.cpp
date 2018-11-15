@@ -753,6 +753,8 @@ static t_Retc proc_i048_spf (t_Ui16 length, t_Byte *buffer, t_Ui16 *pos_ptr);
 				   /* Store this information: */
 	rtgt.data_source_identifier.present = TRUE;
 	rtgt.data_source_identifier.value = dsi;
+    rtgt.data_source_identifier.sac = df1;
+    rtgt.data_source_identifier.sic = df2;
 
 				   /* Set the return code: */
 	ret = RC_OKAY;

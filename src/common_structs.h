@@ -19,7 +19,7 @@
 #define COMMON_STRUCTS_CPP
 
 #include "global.h"
- //#define USE_JSON 1
+//#define USE_JSON 1
 
 #include "common_data_types.h"
 
@@ -1226,6 +1226,10 @@ typedef struct
     /* Data source identifier supplemented */
     t_Ui16 value;
     /* Data source identifier (SAC/SIC) */
+    t_Byte sac;
+    /* Data source system area code */
+    t_Byte sic;
+    /* Data source system identification code */
 
 #if USE_JSON
     void toJSON (nlohmann::json& j, const string& name)
@@ -1234,6 +1238,8 @@ typedef struct
         {
             j[name]["supplemented"] = supplemented;
             j[name]["value"] = value;
+            j[name]["sac"] = sac;
+            j[name]["sic"] = sic;
         }
         else
             j[name] = nullptr;
