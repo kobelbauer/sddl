@@ -57,6 +57,8 @@ private:
     struct archive* json_zip_file_ {nullptr};
     struct archive_entry* json_zip_file_entry_ {nullptr};
 
+    size_t rec_num_cnt_ {0};
+
     void openJsonFile ();
     void writeJsonToFile (nlohmann::json& j);
     void closeJsonFile ();
