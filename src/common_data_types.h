@@ -132,22 +132,5 @@ typedef enum
     /* Anonymous address */
 } t_Target_Address_Enum_Type;
 
-#if USE_JSON
-typedef enum
-{
-    JSON_NONE = 0,
-    JSON_TEST,
-    JSON_PRINT,
-    JSON_TEXT,
-    JSON_CBOR,
-    JSON_MESSAGE_PACK,
-    JSON_UBJSON,
-    JSON_ZIP_TEXT,
-    JSON_ZIP_CBOR,
-    JSON_ZIP_MESSAGE_PACK,
-    JSON_ZIP_UBJSON
-} JSON_OUTPUT_TYPE;
-
-#endif
 
 #endif // COMMON_DATA_TYPES_H

@@ -293,6 +293,7 @@ static void print_subtypes (void);
     printf (" -json-type=type\toutput type of json file to be written, possible types: none,test,print,text,\n"
             "\t\t\t\tcbor,msgpack,ubjson,zip-text,zip-cbor,zip-msgpack,zip-ubjson\n");
     printf (" -json-file=pathname\tpath name of json file to be written\n");
+    printf (" -json-write-nulls\twrite null values in json output\n");
 #endif
 	printf (" -list_065\t\tlist ASTERIX category 065 messages\n");
 	printf (" -list_dsi\t\tlist data source identifiers (SAC/SIC)\n");

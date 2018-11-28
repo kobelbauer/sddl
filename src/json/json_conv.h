@@ -22,8 +22,9 @@
 
 #include "json.hpp"
 
-extern nlohmann::json convertToJSON (t_Tres& tres);
-extern nlohmann::json convertToJSON (t_Rsrv_Type& rsrv);
-extern nlohmann::json convertToJSON (t_Target_Address_Enum_Type& ta_type);
+extern void convertToJSON (t_Tres& tres, const std::string& name, nlohmann::json& parent);
+extern void convertToJSON (t_Rsrv_Type& rsrv, const std::string& name, nlohmann::json& parent);
+extern void convertToJSON (t_Target_Address_Enum_Type& ta_type, const std::string& name,
+                           nlohmann::json& parent);
 
 #endif // JSON_CONV_H

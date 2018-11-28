@@ -165,6 +165,7 @@ std::map<std::string, JSON_OUTPUT_TYPE> json_output_type_map {
 };
 
 std::string json_path;
+bool write_json_nulls {false};
 
 JSONWriter* json_writer {nullptr};
 #endif
@@ -295,6 +296,18 @@ static void select_cat (t_Byte category);
 
             printf ("-> Output JSON type '%s'\n", type.c_str());
             json_output_type = json_output_type_map.at(type);
+
+            goto done;
+        }
+    }
+
+    {
+        std::string tmp {option_ptr};
+
+        if (tmp.find("json-write-nulls") != std::string::npos)
+        {
+            write_json_nulls = true;
+            printf ("-> Output JSON null values\n");
 
             goto done;
         }

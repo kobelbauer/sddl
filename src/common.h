@@ -439,9 +439,25 @@ extern t_Listed_Sensor listed_sensors[M_MAX_NUMBER_OF_SENSORS];
 
 class JSONWriter;
 
+typedef enum
+{
+    JSON_NONE = 0,
+    JSON_TEST,
+    JSON_PRINT,
+    JSON_TEXT,
+    JSON_CBOR,
+    JSON_MESSAGE_PACK,
+    JSON_UBJSON,
+    JSON_ZIP_TEXT,
+    JSON_ZIP_CBOR,
+    JSON_ZIP_MESSAGE_PACK,
+    JSON_ZIP_UBJSON
+} JSON_OUTPUT_TYPE;
+
 extern JSON_OUTPUT_TYPE json_output_type;
 extern std::map<std::string, JSON_OUTPUT_TYPE> json_output_type_map;
 extern std::string json_path;
+extern bool write_json_nulls;
 
 extern JSONWriter* json_writer;
 #endif

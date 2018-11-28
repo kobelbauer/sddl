@@ -61,7 +61,7 @@ JSONWriter::~JSONWriter ()
 
 void JSONWriter::write(t_Adsb *adsb_ptr)
 {
-    static nlohmann::json j;
+    nlohmann::json j;
     adsb_ptr->toJSON(j);
     j["rec_num"] = rec_num_cnt_++;
 
@@ -92,7 +92,7 @@ void JSONWriter::write(t_Adsb *adsb_ptr)
 
 void JSONWriter::write(t_Mlat *mlat_ptr)
 {
-    static nlohmann::json j;
+    nlohmann::json j;
     mlat_ptr->toJSON(j);
     j["rec_num"] = rec_num_cnt_++;
 
@@ -123,7 +123,7 @@ void JSONWriter::write(t_Mlat *mlat_ptr)
 
 void JSONWriter::write(t_Rsrv *rsrv_ptr)
 {
-    static nlohmann::json j;
+    nlohmann::json j;
     rsrv_ptr->toJSON(j);
     j["rec_num"] = rec_num_cnt_++;
 
@@ -154,7 +154,7 @@ void JSONWriter::write(t_Rsrv *rsrv_ptr)
 
 void JSONWriter::write(t_Rtgt *rtgt_ptr)
 {
-    static nlohmann::json j;
+    nlohmann::json j;
     rtgt_ptr->toJSON(j);
     j["rec_num"] = rec_num_cnt_++;
 
@@ -185,7 +185,7 @@ void JSONWriter::write(t_Rtgt *rtgt_ptr)
 
 void JSONWriter::write(t_Strk *strk_ptr)
 {
-    static nlohmann::json j;
+    nlohmann::json j;
     strk_ptr->toJSON(j);
     j["rec_num"] = rec_num_cnt_++;
 

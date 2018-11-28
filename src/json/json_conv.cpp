@@ -16,83 +16,87 @@
  */
 
 #include "json_conv.h"
+#include "common.h"
 
-nlohmann::json convertToJSON (t_Tres& tres)
+void convertToJSON (t_Tres& tres, const std::string& name, nlohmann::json& parent)
 {
     switch (tres)
     {
     case e_is_undefined:
-        return nullptr;
+        if (write_json_nulls)
+            parent[name] = nullptr;
         break;
     case e_is_false:
-        return false;
+        parent[name] = false;
         break;
     case e_is_true:
-        return true;
+        parent[name] = true;
         break;
     default:
-        return nullptr;
+        if (write_json_nulls)
+            parent[name] = nullptr;
         break;
     }
 
 }
 
-nlohmann::json convertToJSON (t_Rsrv_Type& rsrv)
+void convertToJSON (t_Rsrv_Type& rsrv, const std::string& name, nlohmann::json& parent)
 {
     switch (rsrv)
     {
     case e_rsrv_undefined:
-        return "undefined";
+        parent[name] = "undefined";
         break;
     case e_rsrv_north_marker:
-        return "nort marker";
+        parent[name] = "nort marker";
         break;
     case e_rsrv_south_marker:
-        return "south marker";
+        parent[name] = "south marker";
         break;
     case e_rsrv_sector_crossing:
-        return "sector crossing";
+        parent[name] = "sector crossing";
         break;
     case e_rsrv_supervisory:
-        return "supervisory";
+        parent[name] = "supervisory";
         break;
     case e_rsrv_filtering_zone:
-        return "filtering zone";
+        parent[name] = "filtering zone";
         break;
     case e_rsrv_jamming_strobe:
-        return "jamming strobe";
+        parent[name] = "jamming strobe";
         break;
     default:
-        return nullptr;
+        if (write_json_nulls)
+            parent[name] = nullptr;
         break;
     }
 
 }
 
-nlohmann::json convertToJSON (t_Target_Address_Enum_Type& ta_type)
+void convertToJSON (t_Target_Address_Enum_Type& ta_type, const std::string& name, nlohmann::json& parent)
 {
     switch (ta_type)
     {
     case e_target_address_undefined:
-        return "undefined";
+        parent[name] = "undefined";
         break;
     case e_target_address_non_unique:
-        return "non unique address";
+        parent[name] = "non unique address";
         break;
     case e_target_address_icao_24_bit:
-        return "24-bit ICAO address";
+        parent[name] = "24-bit ICAO address";
         break;
     case e_target_address_surface_vehicle:
-        return "surface vehicle address";
+        parent[name] = "surface vehicle address";
         break;
     case e_target_address_anonymous:
-        return "anonymous";
+        parent[name] = "anonymous";
         break;
     default:
-        return nullptr;
+        if (write_json_nulls)
+            parent[name] = nullptr;
         break;
     }
-
 }
 
 
