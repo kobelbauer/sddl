@@ -321,6 +321,9 @@ void JSONWriter::writeData()
         json_data_[cnt] = std::move (j);
     } );
 
+    for (nlohmann::json& j_it : json_data_)
+        j_it["rec_num"] = rec_num_cnt_++;
+
 //    for (JSONConvertible* data_ptr : data_)
 //    {
 //        nlohmann::json j;
