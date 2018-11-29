@@ -23,6 +23,8 @@
 #include <archive.h>
 #include <archive_entry.h>
 
+const unsigned int DATA_WRITE_SIZE = 1000;
+
 JSONWriter::JSONWriter(JSON_OUTPUT_TYPE json_output_type, const std::string& json_path)
     : json_output_type_{json_output_type}, json_path_ {json_path}
 {
@@ -52,6 +54,9 @@ JSONWriter::JSONWriter(JSON_OUTPUT_TYPE json_output_type, const std::string& jso
 
 JSONWriter::~JSONWriter ()
 {
+    if (data_.size())
+        writeData();
+
     if (json_file_open_)
         closeJsonFile ();
 
@@ -61,157 +66,259 @@ JSONWriter::~JSONWriter ()
 
 void JSONWriter::write(t_Adsb *adsb_ptr)
 {
-    nlohmann::json j;
-    adsb_ptr->toJSON(j);
-    j["rec_num"] = rec_num_cnt_++;
+    assert (adsb_ptr);
 
     switch (json_output_type_)
     {
     case JSON_TEST:
         break;
     case JSON_PRINT:
+    {
+        nlohmann::json j;
+        adsb_ptr->toJSON(j);
+        j["rec_num"] = rec_num_cnt_++;
         std::cout << "adsb json: " << j.dump(4) << std::endl;
+    }
         break;
     case JSON_TEXT:
     case JSON_CBOR:
     case JSON_MESSAGE_PACK:
     case JSON_UBJSON:
-        writeJsonToFile (j);
-        break;
+//        writeJsonToFile (j);
+//        break;
     case JSON_ZIP_TEXT:
     case JSON_ZIP_CBOR:
     case JSON_ZIP_MESSAGE_PACK:
     case JSON_ZIP_UBJSON:
-        writeJsonToZipFile (j);
+    {
+        t_Adsb* adsb_copy = new t_Adsb();
+        *adsb_copy = *adsb_ptr;
+        data_.push_back(dynamic_cast<JSONConvertible*>(adsb_copy));
+        //writeJsonToZipFile (j);
+    }
         break;
     default:
         printf ("-> Unhandled JSON output type '%d' write\n", json_output_type_);
         break;
     }
+
+    if (data_.size() > DATA_WRITE_SIZE)
+        writeData();
 }
 
 void JSONWriter::write(t_Mlat *mlat_ptr)
 {
-    nlohmann::json j;
-    mlat_ptr->toJSON(j);
-    j["rec_num"] = rec_num_cnt_++;
+    assert (mlat_ptr);
 
     switch (json_output_type_)
     {
     case JSON_TEST:
         break;
     case JSON_PRINT:
+    {
+        nlohmann::json j;
+        mlat_ptr->toJSON(j);
+        j["rec_num"] = rec_num_cnt_++;
         std::cout << "mlat json: " << j.dump(4) << std::endl;
+    }
         break;
     case JSON_TEXT:
     case JSON_CBOR:
     case JSON_MESSAGE_PACK:
     case JSON_UBJSON:
-        writeJsonToFile (j);
-        break;
+//        writeJsonToFile (j);
+//        break;
     case JSON_ZIP_TEXT:
     case JSON_ZIP_CBOR:
     case JSON_ZIP_MESSAGE_PACK:
     case JSON_ZIP_UBJSON:
-        writeJsonToZipFile (j);
+    {
+        //writeJsonToZipFile (j);
+        t_Mlat* mlat_copy = new t_Mlat();
+        *mlat_copy = *mlat_ptr;
+        data_.push_back(dynamic_cast<JSONConvertible*>(mlat_copy));
+    }
         break;
     default:
         printf ("-> Unhandled JSON output type '%d' write\n", json_output_type_);
         break;
     }
+
+    if (data_.size() > DATA_WRITE_SIZE)
+        writeData();
 }
 
 void JSONWriter::write(t_Rsrv *rsrv_ptr)
 {
-    nlohmann::json j;
-    rsrv_ptr->toJSON(j);
-    j["rec_num"] = rec_num_cnt_++;
+    assert (rsrv_ptr);
 
     switch (json_output_type_)
     {
     case JSON_TEST:
         break;
     case JSON_PRINT:
+    {
+        nlohmann::json j;
+        rsrv_ptr->toJSON(j);
+        j["rec_num"] = rec_num_cnt_++;
         std::cout << "rsvr json: " << j.dump(4) << std::endl;
+    }
         break;
     case JSON_TEXT:
     case JSON_CBOR:
     case JSON_MESSAGE_PACK:
     case JSON_UBJSON:
-        writeJsonToFile (j);
-        break;
+//        writeJsonToFile (j);
+//        break;
     case JSON_ZIP_TEXT:
     case JSON_ZIP_CBOR:
     case JSON_ZIP_MESSAGE_PACK:
     case JSON_ZIP_UBJSON:
-        writeJsonToZipFile (j);
+    {
+        t_Rsrv* rsrv_copy = new t_Rsrv();
+        *rsrv_copy = *rsrv_ptr;
+        data_.push_back(dynamic_cast<JSONConvertible*>(rsrv_copy));
+        //writeJsonToZipFile (j);
+    }
         break;
     default:
         printf ("-> Unhandled JSON output type '%d' write\n", json_output_type_);
         break;
     }
+
+    if (data_.size() > DATA_WRITE_SIZE)
+        writeData();
 }
 
 void JSONWriter::write(t_Rtgt *rtgt_ptr)
 {
-    nlohmann::json j;
-    rtgt_ptr->toJSON(j);
-    j["rec_num"] = rec_num_cnt_++;
+    assert (rtgt_ptr);
 
     switch (json_output_type_)
     {
     case JSON_TEST:
         break;
     case JSON_PRINT:
+    {
+        nlohmann::json j;
+        rtgt_ptr->toJSON(j);
+        j["rec_num"] = rec_num_cnt_++;
         std::cout << "rtgt json: " << j.dump(4) << std::endl;
+    }
         break;
     case JSON_TEXT:
     case JSON_CBOR:
     case JSON_MESSAGE_PACK:
     case JSON_UBJSON:
-        writeJsonToFile (j);
-        break;
+//        writeJsonToFile (j);
+//        break;
     case JSON_ZIP_TEXT:
     case JSON_ZIP_CBOR:
     case JSON_ZIP_MESSAGE_PACK:
     case JSON_ZIP_UBJSON:
-        writeJsonToZipFile (j);
+    {
+        t_Rtgt* rtgt_copy = new t_Rtgt();
+        *rtgt_copy = *rtgt_ptr;
+        data_.push_back(dynamic_cast<JSONConvertible*>(rtgt_copy));
+        //writeJsonToZipFile (j);
+    }
         break;
     default:
         printf ("-> Unhandled JSON output type '%d' write\n", json_output_type_);
         break;
     }
+
+    if (data_.size() > DATA_WRITE_SIZE)
+        writeData();
 }
 
 void JSONWriter::write(t_Strk *strk_ptr)
 {
-    nlohmann::json j;
-    strk_ptr->toJSON(j);
-    j["rec_num"] = rec_num_cnt_++;
+    assert (strk_ptr);
 
     switch (json_output_type_)
     {
     case JSON_TEST:
         break;
     case JSON_PRINT:
+    {
+        nlohmann::json j;
+        strk_ptr->toJSON(j);
+        j["rec_num"] = rec_num_cnt_++;
         std::cout << "track json: " << j.dump(4) << std::endl;
+    }
         break;
     case JSON_TEXT:
     case JSON_CBOR:
     case JSON_MESSAGE_PACK:
     case JSON_UBJSON:
-        writeJsonToFile (j);
-        break;
+//        writeJsonToFile (j);
+//        break;
     case JSON_ZIP_TEXT:
     case JSON_ZIP_CBOR:
     case JSON_ZIP_MESSAGE_PACK:
     case JSON_ZIP_UBJSON:
-        writeJsonToZipFile (j);
+    {
+        t_Strk* strk_copy = new t_Strk();
+        *strk_copy = *strk_ptr;
+        data_.push_back(dynamic_cast<JSONConvertible*>(strk_copy));
+        //writeJsonToZipFile (j);
+    }
         break;
     default:
         printf ("-> Unhandled JSON output type '%d' write\n", json_output_type_);
         break;
     }
+
+    if (data_.size() > DATA_WRITE_SIZE)
+        writeData();
+}
+
+void JSONWriter::writeData()
+{
+    assert (data_.size());
+
+    for (JSONConvertible* data_ptr : data_)
+    {
+        nlohmann::json j;
+        if (dynamic_cast<t_Adsb*>(data_ptr))
+            dynamic_cast<t_Adsb*>(data_ptr)->toJSON (j);
+        else if (dynamic_cast<t_Mlat*>(data_ptr))
+            dynamic_cast<t_Mlat*>(data_ptr)->toJSON (j);
+        else if (dynamic_cast<t_Rsrv*>(data_ptr))
+            dynamic_cast<t_Rsrv*>(data_ptr)->toJSON (j);
+        else if (dynamic_cast<t_Rtgt*>(data_ptr))
+            dynamic_cast<t_Rtgt*>(data_ptr)->toJSON (j);
+        else if (dynamic_cast<t_Strk*>(data_ptr))
+            dynamic_cast<t_Strk*>(data_ptr)->toJSON (j);
+        else
+            assert (false);
+
+        switch (json_output_type_)
+        {
+        case JSON_TEXT:
+        case JSON_CBOR:
+        case JSON_MESSAGE_PACK:
+        case JSON_UBJSON:
+            writeJsonToFile (j);
+            break;
+        case JSON_ZIP_TEXT:
+        case JSON_ZIP_CBOR:
+        case JSON_ZIP_MESSAGE_PACK:
+        case JSON_ZIP_UBJSON:
+            writeJsonToZipFile (j);
+            break;
+        case JSON_TEST:
+        case JSON_PRINT:
+        default:
+            printf ("-> Unhandled JSON output type '%d' writeData\n", json_output_type_);
+            break;
+        }
+
+        delete data_ptr;
+    }
+
+    data_.clear();
 }
 
 void JSONWriter::openJsonFile ()

@@ -4381,8 +4381,24 @@ typedef struct
 /* =================================================== */
 
 /* ADS-B report: */
-typedef struct
+#if USE_JSON
+
+struct JSONConvertible
 {
+    JSONConvertible() = default;
+    virtual ~JSONConvertible() = default;
+
+    //virtual void toJSON (nlohmann::json& j)=0;
+};
+
+struct t_Adsb : public JSONConvertible
+{
+    t_Adsb() = default;
+    virtual ~t_Adsb() = default;
+#else
+struct t_Adsb
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Aircraft_Operational_Status aircraft_operational_status;
@@ -4509,7 +4525,7 @@ typedef struct
     /* WGS-84 position */
 
 #if USE_JSON
-    void toJSON (nlohmann::json& j)
+    virtual void toJSON (nlohmann::json& j)
     {
         j["message_type"] = "ads-b target";
         j["version"] = "1.0";
@@ -4761,11 +4777,18 @@ typedef struct
         /* WGS-84 position */
     }
 #endif
-} t_Adsb;
+};
 
 /* Multilateration report: */
-typedef struct
+#if USE_JSON
+struct t_Mlat : public JSONConvertible
 {
+    t_Mlat() = default;
+    virtual ~t_Mlat() = default;
+#else
+struct t_Mlat
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Byte asterix_category;
@@ -5097,7 +5120,7 @@ typedef struct
 
     }
 #endif
-} t_Mlat;
+};
 
 /* Object types: */
 typedef enum
@@ -5124,8 +5147,15 @@ typedef enum
 } t_Object_Type;
 
 /* Radar service message: */
-typedef struct
+#if USE_JSON
+struct t_Rsrv : public JSONConvertible
 {
+    t_Rsrv() = default;
+    virtual ~t_Rsrv() = default;
+#else
+struct t_Rsrv
+{
+#endif
     t_Rsrv_Type rsrv_type;
     /* Type of radar service message */
 
@@ -5300,11 +5330,18 @@ typedef struct
 //        /* Warning/error conditions */
     }
 #endif
-} t_Rsrv;
+};
 
 /* Radar target report: */
-typedef struct
+#if USE_JSON
+struct t_Rtgt : public JSONConvertible
 {
+    t_Rtgt() = default;
+    virtual ~t_Rtgt() = default;
+#else
+struct t_Rtgt
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Aircraft_Identification aircraft_identification;
@@ -5736,7 +5773,7 @@ typedef struct
 //        /* X pulses */
     }
 #endif
-} t_Rtgt;
+};
 
 /* Sensor status: */
 typedef struct
@@ -5811,8 +5848,15 @@ typedef struct
 } t_Step;
 
 /* System track information: */
-typedef struct
+#if USE_JSON
+struct t_Strk : public JSONConvertible
 {
+    t_Strk() = default;
+    virtual ~t_Strk() = default;
+#else
+struct t_Strk
+{
+#endif
     t_Byte asterix_category;
     /* ASTERIX category */
     t_Bool calculated_cartesian_velocity_accuracy_present;
@@ -6856,7 +6900,7 @@ typedef struct
         /* Vehicle fleet identification */
     }
 #endif
-} t_Strk;
+};
 
 /* Wall (date and) time: */
 typedef struct

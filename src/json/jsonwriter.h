@@ -33,6 +33,7 @@
 
 class archive;
 class archive_entry;
+struct JSONConvertible;
 
 class JSONWriter
 {
@@ -58,6 +59,9 @@ private:
     struct archive_entry* json_zip_file_entry_ {nullptr};
 
     size_t rec_num_cnt_ {0};
+    std::vector <JSONConvertible*> data_;
+
+    void writeData();
 
     void openJsonFile ();
     void writeJsonToFile (nlohmann::json& j);
