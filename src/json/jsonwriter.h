@@ -65,6 +65,8 @@ private:
     std::vector <std::vector<std::uint8_t>> binary_data_;
 
     void writeData();
+
+
     void convertJSON2Text ();
     void convertJSON2CBOR ();
     void convertJSON2UBJSON ();

@@ -19,11 +19,14 @@
 #include "common.h"
 
 #include <vector>
+#include <tbb/tbb.h>
 
 #include <archive.h>
 #include <archive_entry.h>
 
 const unsigned int DATA_WRITE_SIZE = 1000;
+
+using namespace tbb;
 
 JSONWriter::JSONWriter(JSON_OUTPUT_TYPE json_output_type, const std::string& json_path)
     : json_output_type_{json_output_type}, json_path_ {json_path}
@@ -282,9 +285,16 @@ void JSONWriter::writeData()
     assert (!json_data_.size());
     json_data_.resize(data_.size());
 
-    size_t cnt = 0;
-    for (JSONConvertible* data_ptr : data_)
+    //size_t cnt = 0;
+    size_t size = data_.size();
+
+//    for( size_t i=0; i!=n; ++i )
+//            Foo(a[i]);
+
+    tbb::parallel_for( size_t(0), size, [&]( size_t cnt )
     {
+        JSONConvertible* data_ptr = data_.at(cnt);
+
         nlohmann::json j;
         if (dynamic_cast<t_Adsb*>(data_ptr))
             dynamic_cast<t_Adsb*>(data_ptr)->toJSON (j);
@@ -302,8 +312,29 @@ void JSONWriter::writeData()
         delete data_ptr;
 
         json_data_[cnt] = std::move (j);
-        ++cnt;
-    }
+    } );
+
+//    for (JSONConvertible* data_ptr : data_)
+//    {
+//        nlohmann::json j;
+//        if (dynamic_cast<t_Adsb*>(data_ptr))
+//            dynamic_cast<t_Adsb*>(data_ptr)->toJSON (j);
+//        else if (dynamic_cast<t_Mlat*>(data_ptr))
+//            dynamic_cast<t_Mlat*>(data_ptr)->toJSON (j);
+//        else if (dynamic_cast<t_Rsrv*>(data_ptr))
+//            dynamic_cast<t_Rsrv*>(data_ptr)->toJSON (j);
+//        else if (dynamic_cast<t_Rtgt*>(data_ptr))
+//            dynamic_cast<t_Rtgt*>(data_ptr)->toJSON (j);
+//        else if (dynamic_cast<t_Strk*>(data_ptr))
+//            dynamic_cast<t_Strk*>(data_ptr)->toJSON (j);
+//        else
+//            assert (false);
+
+//        delete data_ptr;
+
+//        json_data_[cnt] = std::move (j);
+//        ++cnt;
+//    }
     assert (data_.size() == json_data_.size());
     data_.clear();
 
@@ -370,10 +401,17 @@ void JSONWriter::convertJSON2Text ()
     assert (!text_data_.size());
     text_data_.resize(json_data_.size());
 
-    size_t cnt = 0;
+    size_t size = json_data_.size();
 
-    for (nlohmann::json& j_it : json_data_)
-        text_data_[cnt++] = j_it.dump(4) + "\n";
+    tbb::parallel_for( size_t(0), size, [&]( size_t cnt )
+    {
+        text_data_[cnt] = json_data_.at(cnt).dump(4) + "\n";
+    } );
+
+//    size_t cnt = 0;
+
+//    for (nlohmann::json& j_it : json_data_)
+//        text_data_[cnt++] = j_it.dump(4) + "\n";
 
     assert (text_data_.size() == json_data_.size());
     json_data_.clear();
@@ -384,9 +422,16 @@ void JSONWriter::convertJSON2CBOR ()
     assert (!binary_data_.size());
     binary_data_.resize(json_data_.size());
 
-    size_t cnt = 0;
-    for (nlohmann::json& j_it : json_data_)
-        binary_data_[cnt++] = nlohmann::json::to_cbor(j_it);
+    size_t size = json_data_.size();
+
+    tbb::parallel_for( size_t(0), size, [&]( size_t cnt )
+    {
+        binary_data_[cnt] = nlohmann::json::to_cbor(json_data_.at(cnt));
+    } );
+
+//    size_t cnt = 0;
+//    for (nlohmann::json& j_it : json_data_)
+//        binary_data_[cnt++] = nlohmann::json::to_cbor(j_it);
 
     assert (json_data_.size() == binary_data_.size());
     json_data_.clear();
@@ -397,9 +442,16 @@ void JSONWriter::convertJSON2UBJSON ()
     assert (!binary_data_.size());
     binary_data_.resize(json_data_.size());
 
-    size_t cnt = 0;
-    for (nlohmann::json& j_it : json_data_)
-        binary_data_[cnt++] = nlohmann::json::to_ubjson(j_it);
+    size_t size = json_data_.size();
+
+    tbb::parallel_for( size_t(0), size, [&]( size_t cnt )
+    {
+        binary_data_[cnt] = nlohmann::json::to_ubjson(json_data_.at(cnt));
+    } );
+
+//    size_t cnt = 0;
+//    for (nlohmann::json& j_it : json_data_)
+//        binary_data_[cnt++] = nlohmann::json::to_ubjson(j_it);
 
     assert (json_data_.size() == binary_data_.size());
     json_data_.clear();
@@ -409,9 +461,16 @@ void JSONWriter::convertJSON2MsgPack ()
     assert (!binary_data_.size());
     binary_data_.resize(json_data_.size());
 
-    size_t cnt = 0;
-    for (nlohmann::json& j_it : json_data_)
-        binary_data_[cnt++] = nlohmann::json::to_msgpack(j_it);
+    size_t size = json_data_.size();
+
+    tbb::parallel_for( size_t(0), size, [&]( size_t cnt )
+    {
+        binary_data_[cnt] = nlohmann::json::to_msgpack(json_data_.at(cnt));
+    } );
+
+//    size_t cnt = 0;
+//    for (nlohmann::json& j_it : json_data_)
+//        binary_data_[cnt++] = nlohmann::json::to_msgpack(j_it);
 
     assert (json_data_.size() == binary_data_.size());
     json_data_.clear();

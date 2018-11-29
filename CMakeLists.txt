@@ -36,9 +36,20 @@ set (USE_JSON true)
 message("USE_JSON: ${USE_JSON}")
 
 IF (USE_JSON)
+
+set(SDDL_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+message("  Path: ${SDDL_PATH}")
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH};${SDDL_PATH}/cmake_modules)
+message("  CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}") 
+
 find_package ( LibArchive REQUIRED )
 message("  LibArchive_INCLUDE_DIRS: ${LibArchive_INCLUDE_DIRS}")
 message("  LibArchive_LIBRARIES: ${LibArchive_LIBRARIES}")
+
+find_package(TBB REQUIRED)
+
+#find_package(TBB COMPONENTS tbbmalloc tbbmalloc_proxy tbb_preview)
 
 #find_package ( Boost REQUIRED COMPONENTS regex system program_options)
 #message("  Boost_INCLUDE_DIR: ${Boost_INCLUDE_DIR}")
@@ -72,8 +83,8 @@ configure_file(src/global.h.in include/global.h)
 IF (USE_JSON)
 target_link_libraries ( sddl
 #    ${Boost_LIBRARIES}
-    ${LibArchive_LIBRARIES})
-#    ${JSONCPP_LIBRARY})    
+    ${LibArchive_LIBRARIES}
+    ${TBB_LIBRARIES})
 ENDIF()
 
 install (TARGETS libsddl DESTINATION lib
