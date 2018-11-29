@@ -10,6 +10,7 @@ target_sources(libsddl
         "${CMAKE_CURRENT_LIST_DIR}/json_conv.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/jsonwriter.h"
         "${CMAKE_CURRENT_LIST_DIR}/jsonwriter.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/jsonfilewritetask.h"
 )
 
 

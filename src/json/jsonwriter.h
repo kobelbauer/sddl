@@ -34,6 +34,7 @@
 class archive;
 class archive_entry;
 struct JSONConvertible;
+class JSONFileWriteTask;
 
 class JSONWriter
 {
@@ -46,6 +47,8 @@ public:
     void write(t_Rsrv *rsrv_ptr);
     void write(t_Rtgt *rtgt_ptr);
     void write(t_Strk *strk_ptr);
+
+    void fileWritingDone () { file_write_in_progress_ = false ;}
 
 private:
     JSON_OUTPUT_TYPE json_output_type_;
@@ -64,8 +67,9 @@ private:
     std::vector <std::string> text_data_;
     std::vector <std::vector<std::uint8_t>> binary_data_;
 
-    void writeData();
+    bool file_write_in_progress_ {false};
 
+    void writeData();
 
     void convertJSON2Text ();
     void convertJSON2CBOR ();

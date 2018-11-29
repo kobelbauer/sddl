@@ -16,6 +16,7 @@
  */
 
 #include "jsonwriter.h"
+#include "jsonfilewritetask.h"
 #include "common.h"
 
 #include <vector>
@@ -23,6 +24,9 @@
 
 #include <archive.h>
 #include <archive_entry.h>
+
+#include <chrono>
+#include <thread>
 
 const unsigned int DATA_WRITE_SIZE = 1000;
 
@@ -59,6 +63,9 @@ JSONWriter::~JSONWriter ()
 {
     if (data_.size())
         writeData();
+
+    while (file_write_in_progress_)
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
     if (json_file_open_)
         closeJsonFile ();
@@ -504,10 +511,21 @@ void JSONWriter::writeTextToFile ()
     Assert (json_file_open_ == TRUE, "JSON export file not open");
     assert (text_data_.size());
 
-    for (const std::string str_it : text_data_)
-        json_file_ << str_it;
+//    for (const std::string str_it : text_data_)
+//        json_file_ << str_it;
 
-    text_data_.clear();
+//    text_data_.clear();
+
+    while (file_write_in_progress_)
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    file_write_in_progress_ = true;
+
+    JSONTextFileWriteTask* write_task = new (tbb::task::allocate_root()) JSONTextFileWriteTask (
+                json_file_, std::move(text_data_), *this);
+    tbb::task::enqueue(*write_task);
+
+    assert (!text_data_.size());
 }
 
 void JSONWriter::writeBinaryToFile ()
@@ -515,10 +533,21 @@ void JSONWriter::writeBinaryToFile ()
     Assert (json_file_open_ == TRUE, "JSON export file not open");
     assert (binary_data_.size());
 
-    for (const std::vector<std::uint8_t> bin_it : binary_data_)
-        json_file_.write (reinterpret_cast<const char*>(bin_it.data()), bin_it.size());
+//    for (const std::vector<std::uint8_t>& bin_it : binary_data_)
+//        json_file_.write (reinterpret_cast<const char*>(bin_it.data()), bin_it.size());
 
-    binary_data_.clear();
+//    binary_data_.clear();
+
+    while (file_write_in_progress_)
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    file_write_in_progress_ = true;
+
+    JSONBinaryFileWriteTask* write_task = new (tbb::task::allocate_root()) JSONBinaryFileWriteTask (
+                json_file_, std::move(binary_data_), *this);
+    tbb::task::enqueue(*write_task);
+
+    assert (!binary_data_.size());
 }
 
 void JSONWriter::closeJsonFile ()
@@ -569,8 +598,17 @@ void JSONWriter::writeTextToZipFile ()
     Assert (json_zip_file_open_ == TRUE, "JSON export file not open");
     assert (text_data_.size());
 
-    for (const std::string str_it : text_data_)
-        archive_write_data (json_zip_file_, str_it.c_str(), str_it.size());
+//    for (const std::string str_it : text_data_)
+//        archive_write_data (json_zip_file_, str_it.c_str(), str_it.size());
+
+    while (file_write_in_progress_)
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    file_write_in_progress_ = true;
+
+    JSONTextZipFileWriteTask* write_task = new (tbb::task::allocate_root()) JSONTextZipFileWriteTask (
+                json_zip_file_, std::move(text_data_), *this);
+    tbb::task::enqueue(*write_task);
 
     text_data_.clear();
 }
@@ -580,10 +618,21 @@ void JSONWriter::writeBinaryToZipFile ()
     Assert (json_zip_file_open_ == TRUE, "JSON export file not open");
     assert (binary_data_.size());
 
-    for (const std::vector<std::uint8_t> bin_it : binary_data_)
-        archive_write_data (json_zip_file_, reinterpret_cast<const void*>(bin_it.data()), bin_it.size());
+//    for (const std::vector<std::uint8_t> bin_it : binary_data_)
+//        archive_write_data (json_zip_file_, reinterpret_cast<const void*>(bin_it.data()), bin_it.size());
 
-    binary_data_.clear();
+//    binary_data_.clear();
+
+    while (file_write_in_progress_)
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    file_write_in_progress_ = true;
+
+    JSONBinaryZipFileWriteTask* write_task = new (tbb::task::allocate_root()) JSONBinaryZipFileWriteTask (
+                json_zip_file_, std::move(binary_data_), *this);
+    tbb::task::enqueue(*write_task);
+
+    assert (!binary_data_.size());
 }
 
 void JSONWriter::closeJsonZipFile ()
