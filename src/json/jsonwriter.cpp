@@ -278,6 +278,11 @@ void JSONWriter::writeData()
 {
     assert (data_.size());
 
+    // convert to json
+    assert (!json_data_.size());
+    json_data_.resize(data_.size());
+
+    size_t cnt = 0;
     for (JSONConvertible* data_ptr : data_)
     {
         nlohmann::json j;
@@ -294,32 +299,124 @@ void JSONWriter::writeData()
         else
             assert (false);
 
-        switch (json_output_type_)
-        {
-        case JSON_TEXT:
-        case JSON_CBOR:
-        case JSON_MESSAGE_PACK:
-        case JSON_UBJSON:
-            writeJsonToFile (j);
-            break;
-        case JSON_ZIP_TEXT:
-        case JSON_ZIP_CBOR:
-        case JSON_ZIP_MESSAGE_PACK:
-        case JSON_ZIP_UBJSON:
-            writeJsonToZipFile (j);
-            break;
-        case JSON_TEST:
-        case JSON_PRINT:
-        default:
-            printf ("-> Unhandled JSON output type '%d' writeData\n", json_output_type_);
-            break;
-        }
-
         delete data_ptr;
+
+        json_data_[cnt] = std::move (j);
+        ++cnt;
+    }
+    assert (data_.size() == json_data_.size());
+    data_.clear();
+
+    // convert to string or binary data
+
+    switch (json_output_type_)
+    {
+    case JSON_TEXT:
+    case JSON_ZIP_TEXT:
+        convertJSON2Text();
+        break;
+    case JSON_CBOR:
+    case JSON_ZIP_CBOR:
+        convertJSON2CBOR();
+        break;
+    case JSON_MESSAGE_PACK:
+    case JSON_ZIP_MESSAGE_PACK:
+        convertJSON2MsgPack();
+        break;
+    case JSON_UBJSON:
+    case JSON_ZIP_UBJSON:
+        convertJSON2UBJSON();
+        break;
+    case JSON_TEST:
+    case JSON_PRINT:
+    default:
+        printf ("-> Unhandled JSON output type '%d' writeData\n", json_output_type_);
+        break;
     }
 
-    data_.clear();
+    assert (!json_data_.size());
+
+    switch (json_output_type_)
+    {
+    case JSON_TEXT:
+        writeTextToFile ();
+        break;
+    case JSON_CBOR:
+    case JSON_MESSAGE_PACK:
+    case JSON_UBJSON:
+        writeBinaryToFile ();
+        break;
+    case JSON_ZIP_TEXT:
+        writeTextToZipFile();
+        break;
+    case JSON_ZIP_CBOR:
+    case JSON_ZIP_MESSAGE_PACK:
+    case JSON_ZIP_UBJSON:
+        writeBinaryToZipFile ();
+        break;
+    case JSON_TEST:
+    case JSON_PRINT:
+    default:
+        printf ("-> Unhandled JSON output type '%d' writeData\n", json_output_type_);
+        break;
+    }
+
+    assert (!text_data_.size());
+    assert (!binary_data_.size());
 }
+
+void JSONWriter::convertJSON2Text ()
+{
+    assert (!text_data_.size());
+    text_data_.resize(json_data_.size());
+
+    size_t cnt = 0;
+
+    for (nlohmann::json& j_it : json_data_)
+        text_data_[cnt++] = j_it.dump(4) + "\n";
+
+    assert (text_data_.size() == json_data_.size());
+    json_data_.clear();
+}
+
+void JSONWriter::convertJSON2CBOR ()
+{
+    assert (!binary_data_.size());
+    binary_data_.resize(json_data_.size());
+
+    size_t cnt = 0;
+    for (nlohmann::json& j_it : json_data_)
+        binary_data_[cnt++] = nlohmann::json::to_cbor(j_it);
+
+    assert (json_data_.size() == binary_data_.size());
+    json_data_.clear();
+}
+
+void JSONWriter::convertJSON2UBJSON ()
+{
+    assert (!binary_data_.size());
+    binary_data_.resize(json_data_.size());
+
+    size_t cnt = 0;
+    for (nlohmann::json& j_it : json_data_)
+        binary_data_[cnt++] = nlohmann::json::to_ubjson(j_it);
+
+    assert (json_data_.size() == binary_data_.size());
+    json_data_.clear();
+}
+void JSONWriter::convertJSON2MsgPack ()
+{
+    assert (!binary_data_.size());
+    binary_data_.resize(json_data_.size());
+
+    size_t cnt = 0;
+    for (nlohmann::json& j_it : json_data_)
+        binary_data_[cnt++] = nlohmann::json::to_msgpack(j_it);
+
+    assert (json_data_.size() == binary_data_.size());
+    json_data_.clear();
+}
+
 
 void JSONWriter::openJsonFile ()
 {
@@ -343,37 +440,26 @@ void JSONWriter::openJsonFile ()
     json_file_open_ = TRUE;
 }
 
-void JSONWriter::writeJsonToFile (nlohmann::json& j)
+void JSONWriter::writeTextToFile ()
 {
     Assert (json_file_open_ == TRUE, "JSON export file not open");
+    assert (text_data_.size());
 
-    switch (json_output_type_)
-    {
-    case JSON_TEXT:
-        json_file_ << j.dump(4) << std::endl;
-        break;
-    case JSON_CBOR:
-    {
-        std::vector<std::uint8_t> v_cbor = nlohmann::json::to_cbor(j);
-        json_file_.write (reinterpret_cast<const char*>(v_cbor.data()), v_cbor.size());
-    }
-        break;
-    case JSON_MESSAGE_PACK:
-    {
-        std::vector<std::uint8_t> v_msgpack = nlohmann::json::to_msgpack(j);
-        json_file_.write (reinterpret_cast<const char*>(v_msgpack.data()), v_msgpack.size());
-    }
-        break;
-    case JSON_UBJSON:
-    {
-        std::vector<std::uint8_t> v_ubjson = nlohmann::json::to_ubjson(j);
-        json_file_.write (reinterpret_cast<const char*>(v_ubjson.data()), v_ubjson.size());
-    }
-        break;
-    default:
-        printf ("-> Unhandled JSON output type '%d' during write\n", json_output_type_);
-        break;
-    }
+    for (const std::string str_it : text_data_)
+        json_file_ << str_it;
+
+    text_data_.clear();
+}
+
+void JSONWriter::writeBinaryToFile ()
+{
+    Assert (json_file_open_ == TRUE, "JSON export file not open");
+    assert (binary_data_.size());
+
+    for (const std::vector<std::uint8_t> bin_it : binary_data_)
+        json_file_.write (reinterpret_cast<const char*>(bin_it.data()), bin_it.size());
+
+    binary_data_.clear();
 }
 
 void JSONWriter::closeJsonFile ()
@@ -418,51 +504,29 @@ void JSONWriter::openJsonZipFile ()
 
     json_zip_file_open_ = TRUE;
 }
-void JSONWriter::writeJsonToZipFile (nlohmann::json& j)
+
+void JSONWriter::writeTextToZipFile ()
 {
     Assert (json_zip_file_open_ == TRUE, "JSON export file not open");
+    assert (text_data_.size());
 
-    switch (json_output_type_)
-    {
-    case JSON_ZIP_TEXT:
-    {
-        std::string tmp {j.dump(4)};
-        tmp += "\n";
-        archive_write_data (json_zip_file_, tmp.c_str(), tmp.size());
-    }
-        break;
-    case JSON_ZIP_CBOR:
-    {
-        std::vector<std::uint8_t> v_cbor = nlohmann::json::to_cbor(j);
-        //cout << "cbor-zip write " << v_cbor.size() << std::endl;
-        archive_write_data (json_zip_file_,reinterpret_cast<const void*>(v_cbor.data()), v_cbor.size());
-        //            if (bytes_written != v_cbor.size())
-        //            {
-        //                printf("Error writing output archive %d\n", bytes_written);
-        //                assert (false);
-        //            }
-    }
-        break;
-    case JSON_ZIP_MESSAGE_PACK:
-    {
-        std::vector<std::uint8_t> v_msgpack = nlohmann::json::to_msgpack(j);
-        //cout << "msgpack-zip write " << v_msgpack.size() << std::endl;
-        archive_write_data (json_zip_file_,reinterpret_cast<const void*>(v_msgpack.data()), v_msgpack.size());
-    }
-        break;
-    case JSON_ZIP_UBJSON:
-    {
-        std::vector<std::uint8_t> v_ubjson = nlohmann::json::to_ubjson(j);
-        //cout << "ubjson-zip write " << v_ubjson.size() << std::endl;
-        archive_write_data (json_zip_file_,reinterpret_cast<const void*>(v_ubjson.data()), v_ubjson.size());
-    }
-        break;
-    default:
-        printf ("-> Unhandled JSON output type '%d' during write\n", json_output_type_);
-        break;
-    }
-    //archive_write_data(json_zip_file_, buff, len);
+    for (const std::string str_it : text_data_)
+        archive_write_data (json_zip_file_, str_it.c_str(), str_it.size());
+
+    text_data_.clear();
 }
+
+void JSONWriter::writeBinaryToZipFile ()
+{
+    Assert (json_zip_file_open_ == TRUE, "JSON export file not open");
+    assert (binary_data_.size());
+
+    for (const std::vector<std::uint8_t> bin_it : binary_data_)
+        archive_write_data (json_zip_file_, reinterpret_cast<const void*>(bin_it.data()), bin_it.size());
+
+    binary_data_.clear();
+}
+
 void JSONWriter::closeJsonZipFile ()
 {
     archive_entry_free(json_zip_file_entry_);

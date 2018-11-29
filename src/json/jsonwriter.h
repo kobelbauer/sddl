@@ -60,15 +60,24 @@ private:
 
     size_t rec_num_cnt_ {0};
     std::vector <JSONConvertible*> data_;
+    std::vector <nlohmann::json> json_data_;
+    std::vector <std::string> text_data_;
+    std::vector <std::vector<std::uint8_t>> binary_data_;
 
     void writeData();
+    void convertJSON2Text ();
+    void convertJSON2CBOR ();
+    void convertJSON2UBJSON ();
+    void convertJSON2MsgPack ();
 
     void openJsonFile ();
-    void writeJsonToFile (nlohmann::json& j);
+    void writeTextToFile ();
+    void writeBinaryToFile ();
     void closeJsonFile ();
 
     void openJsonZipFile ();
-    void writeJsonToZipFile (nlohmann::json& j);
+    void writeTextToZipFile ();
+    void writeBinaryToZipFile ();
     void closeJsonZipFile ();
 };
 
