@@ -33,6 +33,8 @@
 
 class archive;
 class archive_entry;
+struct JSONConvertible;
+class JSONFileWriteTask;
 
 class JSONWriter
 {
@@ -46,6 +48,8 @@ public:
     void write(t_Rtgt *rtgt_ptr);
     void write(t_Strk *strk_ptr);
 
+    void fileWritingDone () { file_write_in_progress_ = false ;}
+
 private:
     JSON_OUTPUT_TYPE json_output_type_;
     std::string json_path_;
@@ -57,12 +61,29 @@ private:
     struct archive* json_zip_file_ {nullptr};
     struct archive_entry* json_zip_file_entry_ {nullptr};
 
+    size_t rec_num_cnt_ {0};
+    std::vector <JSONConvertible*> data_;
+    std::vector <nlohmann::json> json_data_;
+    std::vector <std::string> text_data_;
+    std::vector <std::vector<std::uint8_t>> binary_data_;
+
+    bool file_write_in_progress_ {false};
+
+    void writeData();
+
+    void convertJSON2Text ();
+    void convertJSON2CBOR ();
+    void convertJSON2UBJSON ();
+    void convertJSON2MsgPack ();
+
     void openJsonFile ();
-    void writeJsonToFile (nlohmann::json& j);
+    void writeTextToFile ();
+    void writeBinaryToFile ();
     void closeJsonFile ();
 
     void openJsonZipFile ();
-    void writeJsonToZipFile (nlohmann::json& j);
+    void writeTextToZipFile ();
+    void writeBinaryToZipFile ();
     void closeJsonZipFile ();
 };
 

@@ -338,6 +338,8 @@ static t_Retc proc_i001_spf (t_Ui16 length, t_Byte *buffer, t_Ui16 *pos_ptr);
 			rtgt.data_source_identifier.present = TRUE;
 			rtgt.data_source_identifier.supplemented = TRUE;
 			rtgt.data_source_identifier.value = last_sacsic;
+            rtgt.data_source_identifier.sac = last_sacsic >> 8;
+            rtgt.data_source_identifier.sic = last_sacsic % 256;
 		}
 
                    /* Process this radar target report: */
@@ -680,6 +682,9 @@ static t_Retc proc_i001_spf (t_Ui16 length, t_Byte *buffer, t_Ui16 *pos_ptr);
 				   /* Store this information: */
 	rtgt.data_source_identifier.present = TRUE;
 	rtgt.data_source_identifier.value = dsi;
+    rtgt.data_source_identifier.sac = df1;
+    rtgt.data_source_identifier.sic = df2;
+
 
 				   /* Set the return code: */
 	ret = RC_OKAY;

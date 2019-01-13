@@ -783,6 +783,8 @@ static t_Retc proc_i010_spf (t_Ui16 length, t_Byte *buffer, t_Ui16 *pos_ptr);
                    /* Store this information: */
 	mlat.data_source_identifier.present = TRUE;
 	mlat.data_source_identifier.value = dsi;
+    mlat.data_source_identifier.sac = df1;
+    mlat.data_source_identifier.sic = df2;
 
 				   /* Set the return code: */
 	ret = RC_OKAY;

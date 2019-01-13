@@ -19,7 +19,7 @@
 #define COMMON_STRUCTS_CPP
 
 #include "global.h"
- //#define USE_JSON 1
+//#define USE_JSON 1
 
 #include "common_data_types.h"
 
@@ -30,6 +30,8 @@
 #include <string>
 
 using namespace std;
+
+extern bool write_json_nulls;
 #endif
 
 /* Geodetical point: */
@@ -70,7 +72,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -90,7 +92,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -117,7 +119,7 @@ typedef struct
             j[name]["value_idt"] = value_idt;
             j[name]["value_sti"] = value_sti;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -157,7 +159,7 @@ typedef struct
             j[name]["value_tcas"] = value_tcas;
             j[name]["value_ts"] = value_ts;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -197,7 +199,7 @@ typedef struct
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -240,7 +242,7 @@ typedef struct
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -269,7 +271,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -290,7 +292,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -310,7 +312,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -330,7 +332,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -350,7 +352,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -372,10 +374,10 @@ typedef struct
     {
         if (present)
         {
-            j[name]["range_exceeded"] = convertToJSON(range_exceeded);
+            convertToJSON(range_exceeded, "range_exceeded", j[name]);
             j[name]["value"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -414,7 +416,7 @@ typedef struct
             j[name]["number"] = number;
             j[name]["value"] = buffer;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -448,7 +450,7 @@ typedef struct
             j[name]["value_azm_rad"] = value_azm;
             j[name]["value_rng_m"] = value_rng;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -498,7 +500,7 @@ typedef struct
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -523,7 +525,7 @@ typedef struct
             j[name]["value_ax_ms2"] = value_ax;
             j[name]["value_ay_ms2"] = value_ay;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -603,7 +605,7 @@ typedef struct
             }
             j[name]["value_m"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -628,7 +630,7 @@ typedef struct
             j[name]["value_x"] = value_x;
             j[name]["value_y"] = value_y;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -656,7 +658,7 @@ typedef struct
             j[name]["value_xy_m"] = value_xy;
             j[name]["value_y_m"] = value_y;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -681,7 +683,7 @@ typedef struct
             j[name]["value_vx_ms"] = value_vx;
             j[name]["value_vy_ms"] = value_vy;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -703,7 +705,7 @@ typedef struct
         {
             j[name] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -860,7 +862,7 @@ typedef struct
             /* Age of DAP "ACAS Resolution Advisory Report"; seconds */
             if (acs_present)
                 j[name]["value_acs"] = value_acs;
-            else
+            else if (write_json_nulls)
                 j[name]["value_acs"] = nullptr;
 
             // t_Bool bps_present;
@@ -869,7 +871,7 @@ typedef struct
             /* Age of DAP "Barometric Pressure Setting"; seconds */
             if (bps_present)
                 j[name]["value_bps"] = value_bps;
-            else
+            else if (write_json_nulls)
                 j[name]["value_bps"] = nullptr;
 
             // t_Bool bvr_present;
@@ -878,7 +880,7 @@ typedef struct
             /* Age of DAP "Barometric Vertical Rate"; seconds */
             if (bvr_present)
                 j[name]["value_bvr"] = value_bvr;
-            else
+            else if (write_json_nulls)
                 j[name]["value_bvr"] = nullptr;
 
             // t_Bool com_present;
@@ -889,7 +891,7 @@ typedef struct
            Flight Status"; seconds */
             if (com_present)
                 j[name]["value_com"] = value_com;
-            else
+            else if (write_json_nulls)
                 j[name]["value_com"] = nullptr;
 
             // t_Bool emc_present;
@@ -898,7 +900,7 @@ typedef struct
             /* Age of DAP "Emitter Category"; seconds */
             if (emc_present)
                 j[name]["value_emc"] = value_emc;
-            else
+            else if (write_json_nulls)
                 j[name]["value_emc"] = nullptr;
 
             // t_Bool fss_present;
@@ -907,7 +909,7 @@ typedef struct
             /* Age of DAP "Final State Selected Altitude"; seconds */
             if (fss_present)
                 j[name]["value_fss"] = value_fss;
-            else
+            else if (write_json_nulls)
                 j[name]["value_fss"] = nullptr;
 
             // t_Bool gal_present;
@@ -916,7 +918,7 @@ typedef struct
             /* Age of DAP "Geometric Altitude"; seconds */
             if (gal_present)
                 j[name]["value_gal"] = value_gal;
-            else
+            else if (write_json_nulls)
                 j[name]["value_gal"] = nullptr;
 
             // t_Bool gsp_present;
@@ -925,7 +927,7 @@ typedef struct
             /* Age of DAP "Ground Speed"; seconds */
             if (gsp_present)
                 j[name]["value_gsp"] = value_gsp;
-            else
+            else if (write_json_nulls)
                 j[name]["value_gsp"] = nullptr;
 
             // t_Bool gvr_present;
@@ -934,7 +936,7 @@ typedef struct
             /* Age of DAP "Geometrical Vertical Rate"; seconds */
             if (gvr_present)
                 j[name]["value_gvr"] = value_gvr;
-            else
+            else if (write_json_nulls)
                 j[name]["value_gvr"] = nullptr;
 
             // t_Bool iar_present;
@@ -943,7 +945,7 @@ typedef struct
             /* Age of DAP "Indicated Airspeed"; seconds */
             if (iar_present)
                 j[name]["value_iar"] = value_iar;
-            else
+            else if (write_json_nulls)
                 j[name]["value_iar"] = nullptr;
 
             // t_Bool ias_present;
@@ -952,7 +954,7 @@ typedef struct
             /* Age of DAP "Indicated Airspeed / Mach Number"; seconds */
             if (ias_present)
                 j[name]["value_ias"] = value_ias;
-            else
+            else if (write_json_nulls)
                 j[name]["value_ias"] = nullptr;
 
             // t_Bool mac_present;
@@ -961,7 +963,7 @@ typedef struct
             /* Age of DAP "Mach Number"; seconds */
             if (mac_present)
                 j[name]["value_mac"] = value_mac;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mac"] = nullptr;
 
             // t_Bool mb_present;
@@ -970,7 +972,7 @@ typedef struct
             /* Age of DAP "Mode S MB Data"; seconds */
             if (mb_present)
                 j[name]["value_mb"] = value_mb;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mb"] = nullptr;
 
             // t_Bool md1_present;
@@ -980,7 +982,7 @@ typedef struct
            to update the track; seconds */
             if (md1_present)
                 j[name]["value_md1"] = value_md1;
-            else
+            else if (write_json_nulls)
                 j[name]["value_md1"] = nullptr;
 
             // t_Bool md2_present;
@@ -990,7 +992,7 @@ typedef struct
            to update the track; seconds */
             if (md2_present)
                 j[name]["value_md2"] = value_md2;
-            else
+            else if (write_json_nulls)
                 j[name]["value_md2"] = nullptr;
 
             // t_Bool md4_present;
@@ -1000,7 +1002,7 @@ typedef struct
            to update the track; seconds */
             if (md4_present)
                 j[name]["value_md4"] = value_md4;
-            else
+            else if (write_json_nulls)
                 j[name]["value_md4"] = nullptr;
 
             // t_Bool md5_present;
@@ -1010,7 +1012,7 @@ typedef struct
            to update the track; seconds */
             if (md5_present)
                 j[name]["value_md5"] = value_md5;
-            else
+            else if (write_json_nulls)
                 j[name]["value_md5"] = nullptr;
 
             // t_Bool mda_present;
@@ -1020,7 +1022,7 @@ typedef struct
            to update the track; seconds */
             if (mda_present)
                 j[name]["value_mda"] = value_mda;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mda"] = nullptr;
 
             // t_Bool met_present;
@@ -1029,7 +1031,7 @@ typedef struct
             /* Age of DAP "Meteorological Data"; seconds */
             if (met_present)
                 j[name]["value_met"] = value_met;
-            else
+            else if (write_json_nulls)
                 j[name]["value_met"] = nullptr;
 
             // t_Bool mfl_present;
@@ -1040,7 +1042,7 @@ typedef struct
            track; seconds */
             if (mfl_present)
                 j[name]["value_mfl"] = value_mfl;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mfl"] = nullptr;
 
             // t_Bool mhg_present;
@@ -1049,7 +1051,7 @@ typedef struct
             /* Age of DAP "Magnetic Heading"; seconds */
             if (mhg_present)
                 j[name]["value_mhg"] = value_mhg;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mhg"] = nullptr;
 
 
@@ -1059,7 +1061,7 @@ typedef struct
             /* Age of DAP "Position"; seconds */
             if (pos_present)
                 j[name]["value_pos"] = value_pos;
-            else
+            else if (write_json_nulls)
                 j[name]["value_pos"] = nullptr;
 
             // t_Bool pun_present;
@@ -1068,7 +1070,7 @@ typedef struct
             /* Age of DAP "Position Uncertianty"; seconds */
             if (pun_present)
                 j[name]["value_pun"] = value_pun;
-            else
+            else if (write_json_nulls)
                 j[name]["value_pun"] = nullptr;
 
             // t_Bool ran_present;
@@ -1077,7 +1079,7 @@ typedef struct
             /* Age of DAP "Roll Angle"; seconds */
             if (ran_present)
                 j[name]["value_ran"] = value_ran;
-            else
+            else if (write_json_nulls)
                 j[name]["value_ran"] = nullptr;
 
             // t_Bool sab_present;
@@ -1086,7 +1088,7 @@ typedef struct
             /* Age of DAP "Status Reported by ADS-B"; seconds */
             if (sab_present)
                 j[name]["value_sab"] = value_sab;
-            else
+            else if (write_json_nulls)
                 j[name]["value_sab"] = nullptr;
 
             // t_Bool sal_present;
@@ -1095,7 +1097,7 @@ typedef struct
             /* Age of DAP "Selected Altitude"; seconds */
             if (sal_present)
                 j[name]["value_sal"] = value_sal;
-            else
+            else if (write_json_nulls)
                 j[name]["value_sal"] = nullptr;
 
             // t_Bool tan_present;
@@ -1104,7 +1106,7 @@ typedef struct
             /* Age of DAP "Track Angle"; seconds */
             if (tan_present)
                 j[name]["value_tan"] = value_tan;
-            else
+            else if (write_json_nulls)
                 j[name]["value_tan"] = nullptr;
 
             // t_Bool tas_present;
@@ -1113,7 +1115,7 @@ typedef struct
             /* Age of DAP "True Airspeed"; seconds */
             if (tas_present)
                 j[name]["value_tas"] = value_tas;
-            else
+            else if (write_json_nulls)
                 j[name]["value_tas"] = nullptr;
 
             // t_Bool tar_present;
@@ -1122,7 +1124,7 @@ typedef struct
             /* Age of DAP "Track Angle Rate"; seconds */
             if (tar_present)
                 j[name]["value_tar"] = value_tar;
-            else
+            else if (write_json_nulls)
                 j[name]["value_tar"] = nullptr;
 
             // t_Bool tid_present;
@@ -1131,7 +1133,7 @@ typedef struct
             /* Age of DAP "Trajectory Intent"; seconds */
             if (tid_present)
                 j[name]["value_tid"] = value_tid;
-            else
+            else if (write_json_nulls)
                 j[name]["value_tid"] = nullptr;
 
             // t_Real value_vun;
@@ -1140,8 +1142,10 @@ typedef struct
             /* Age of DAP "Velocity Uncertainty" present */
             if (vun_present)
                 j[name]["value_vun"] = value_vun;
+            else if (write_json_nulls)
+                j[name]["value_vun"] = nullptr;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1226,6 +1230,10 @@ typedef struct
     /* Data source identifier supplemented */
     t_Ui16 value;
     /* Data source identifier (SAC/SIC) */
+    t_Byte sac;
+    /* Data source system area code */
+    t_Byte sic;
+    /* Data source system identification code */
 
 #if USE_JSON
     void toJSON (nlohmann::json& j, const string& name)
@@ -1234,8 +1242,10 @@ typedef struct
         {
             j[name]["supplemented"] = supplemented;
             j[name]["value"] = value;
+            j[name]["sac"] = sac;
+            j[name]["sic"] = sic;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -1315,21 +1325,21 @@ typedef struct
     {
         if (present)
         {
-            j[name]["from_fixed_field_transponder"] = convertToJSON(from_fixed_field_transponder);
-            j[name]["is_radar_track"] = convertToJSON(is_radar_track);
-            j[name]["is_raw_plot"] = convertToJSON(is_raw_plot);
-            j[name]["mode_s_all_call"] = convertToJSON(mode_s_all_call);
-            j[name]["mode_s_roll_call"] = convertToJSON(mode_s_roll_call);
-            j[name]["reported_from_ads"] = convertToJSON(reported_from_ads);
-            j[name]["reported_from_mds"] = convertToJSON(reported_from_mds);
-            j[name]["reported_from_mlt"] = convertToJSON(reported_from_mlt);
-            j[name]["reported_from_psr"] = convertToJSON(reported_from_psr);
-            j[name]["reported_from_ssr"] = convertToJSON(reported_from_ssr);
+            convertToJSON(from_fixed_field_transponder, "from_fixed_field_transponder", j[name]);
+            convertToJSON(is_radar_track, "is_radar_track", j[name]);
+            convertToJSON(is_raw_plot, "is_raw_plot", j[name]);
+            convertToJSON(mode_s_all_call, "mode_s_all_call", j[name]);
+            convertToJSON(mode_s_roll_call, "mode_s_roll_call", j[name]);
+            convertToJSON(reported_from_ads, "reported_from_ads", j[name]);
+            convertToJSON(reported_from_mds, "reported_from_mds", j[name]);
+            convertToJSON(reported_from_mlt, "reported_from_mlt", j[name]);
+            convertToJSON(reported_from_psr, "reported_from_psr", j[name]);
+            convertToJSON(reported_from_ssr, "reported_from_ssr", j[name]);
             j[name]["sector_crossing"] = sector_crossing;
-            j[name]["simulated"] = convertToJSON(simulated);
-            j[name]["test_target"] = convertToJSON(test_target);
+            convertToJSON(simulated, "simulated", j[name]);
+            convertToJSON(test_target, "test_target", j[name]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1356,7 +1366,7 @@ typedef struct
             j[name]["value_xy"] = value_xy;
             j[name]["value_y"] = value_y;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1377,10 +1387,10 @@ typedef struct
     {
         if (present)
         {
-            j[name]["is_doubtful"] = convertToJSON(is_doubtful);
+            convertToJSON(is_doubtful, "is_doubtful", j[name]);
             j[name]["value"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -1523,7 +1533,7 @@ typedef struct
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -1543,7 +1553,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1587,7 +1597,7 @@ typedef struct
             j[name]["value_feet"] = value_in_feet;
             j[name]["value_mv"] = value_mv;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -1612,7 +1622,7 @@ typedef struct
             j[name]["value_m"] = value;
             j[name]["value_feet"] = value_in_feet;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -1682,11 +1692,12 @@ typedef struct
                 j[name]["value_status_info"] = "no alert, SPI, aircraft airborne or on ground";
                 break;
             default:
-                j[name]["value_status_info"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["value_status_info"] = nullptr;
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1709,7 +1720,7 @@ typedef struct
             j[name]["month"] = value.month;
             j[name]["day"] = value.day;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1728,7 +1739,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1747,7 +1758,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1768,10 +1779,10 @@ typedef struct
     {
         if (present)
         {
-            j[name]["range_exceeded"] = convertToJSON(range_exceeded);
+            convertToJSON(range_exceeded, "range_exceeded", j[name]);
             j[name]["value_ms"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1794,11 +1805,11 @@ typedef struct
     {
         if (present)
         {
-            j[name]["range_exceeded"] = convertToJSON(range_exceeded);
+            convertToJSON(range_exceeded, "range_exceeded", j[name]);
             j[name]["value_gsp_ms"] = value_gsp;
             j[name]["value_hdg_rad"] = value_hdg;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1821,11 +1832,11 @@ typedef struct
     {
         if (present)
         {
-            j[name]["valid"] = convertToJSON(valid);
+            convertToJSON(valid, "valid", j[name]);
             j[name]["value_m"] = value;
             j[name]["value_ft"] = value_in_feet;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1844,7 +1855,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1915,7 +1926,7 @@ typedef struct
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -1934,7 +1945,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2016,7 +2027,7 @@ typedef struct
             j[name]["value_vn"] = value_vn;
             j[name]["value_vns"] = value_vns;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2035,7 +2046,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2054,7 +2065,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2081,7 +2092,7 @@ typedef struct
             j[name]["value_u"] = value_u;
             j[name]["value_v"] = value_v;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2100,7 +2111,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2119,7 +2130,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2138,7 +2149,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2211,7 +2222,7 @@ typedef struct
             /* Measured 3-D height; 25 feet */
             if (h3d_present)
                 j[name]["value_h3d_ft"] = value_h3d;
-            else
+            else if (write_json_nulls)
                 j[name]["value_h3d_ft"] = nullptr;
 
             // t_Bool mda_present;
@@ -2231,7 +2242,7 @@ typedef struct
                 j[name]["value_mda_invalid"] = value_mda_invalid;
                 j[name]["value_mda_smoothed"] = value_mda_smoothed;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_mda"] = nullptr;
                 j[name]["value_mda_garbled"] = nullptr;
@@ -2253,7 +2264,7 @@ typedef struct
                 j[name]["value_mdc_garbled"] = value_mdc_garbled;
                 j[name]["value_mdc_invalid"] = value_mdc_invalid;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_mdc_ft"] = nullptr;
                 j[name]["value_mdc_garbled"] = nullptr;
@@ -2271,7 +2282,7 @@ typedef struct
                 j[name]["value_rho_m"] = value_theta;
                 j[name]["value_theta_rad"] = value_theta;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_rho_m"] = nullptr;
                 j[name]["value_theta_rad"] = nullptr;
@@ -2283,7 +2294,7 @@ typedef struct
             /* Sensor identification */
             if (sid_present)
                 j[name]["value_sid"] = value_sid;
-            else
+            else if (write_json_nulls)
                 j[name]["value_sid"] = nullptr;
 
             // t_Bool typ_present;
@@ -2316,7 +2327,7 @@ typedef struct
                 j[name]["value_typ_ssr"] = value_typ_ssr;
                 j[name]["value_typ_tst"] = value_typ_tst;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_typ_mds"] = nullptr;
                 j[name]["value_typ_mds_all_call"] = nullptr;
@@ -2327,7 +2338,7 @@ typedef struct
                 j[name]["value_typ_ssr"] = nullptr;
                 j[name]["value_typ_tst"] = nullptr;            }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2347,7 +2358,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2366,7 +2377,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2428,7 +2439,7 @@ typedef struct
             else
                 j[name]["value_ws_ms"] = nullptr;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2449,10 +2460,10 @@ typedef struct
     {
         if (present)
         {
-            j[name]["is_relative"] = convertToJSON(is_relative);
+            convertToJSON(is_relative, "is_relative", j[name]);
             j[name]["value_m"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2477,7 +2488,7 @@ typedef struct
     {
         if (present)
         {
-            j[name]["invalid"] = convertToJSON(invalid);
+            convertToJSON(invalid, "invalid", j[name]);
             j[name]["value"] = value;
 
             switch (value)
@@ -2498,7 +2509,7 @@ typedef struct
                 j[name]["value_info"] = nullptr;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2529,14 +2540,16 @@ typedef struct
         if (present)
         {
             j[name]["code"] = code;
+
             if (code_confidence_present)
                 j[name]["code_confidence"] = code_confidence;
-            else
+            else if (write_json_nulls)
                 j[name]["code_confidence"] = nullptr;
-            j[name]["code_garbled"] = convertToJSON(code_garbled);
-            j[name]["code_invalid"] = convertToJSON(code_invalid);
+
+            convertToJSON(code_garbled, "code_garbled", j[name]);
+            convertToJSON(code_invalid, "code_invalid", j[name]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2566,14 +2579,15 @@ typedef struct
     {
         if (present)
         {
-            j[name]["garbled"] = convertToJSON(garbled);
-            j[name]["height_in_error"] = convertToJSON(height_in_error);
-            j[name]["in_25_feet"] = convertToJSON(in_25_feet);
-            j[name]["invalid"] = convertToJSON(invalid);
+            convertToJSON(garbled, "garbled", j[name]);
+            convertToJSON(height_in_error, "height_in_error", j[name]);
+            convertToJSON(in_25_feet, "in_25_feet", j[name]);
+            convertToJSON(invalid, "invalid", j[name]);
+
             j[name]["value_m"] = value;
             j[name]["value_ft"] = value_in_feet;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2606,7 +2620,7 @@ typedef struct
             j[name]["code_invalid"] = code_invalid;
             j[name]["hits"] = hits;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2639,16 +2653,19 @@ typedef struct
         if (present)
         {
             j[name]["code"] = code;
+
             if (code_confidence_present)
                 j[name]["code_confidence"] = code_confidence;
-            else
+            else if (write_json_nulls)
                 j[name]["code_confidence"] = nullptr;
-            j[name]["code_garbled"] = convertToJSON(code_garbled);
-            j[name]["code_invalid"] = convertToJSON(code_invalid);
-            j[name]["code_smoothed"] = convertToJSON(code_smoothed);
+
+            convertToJSON(code_garbled, "code_garbled", j[name]);
+            convertToJSON(code_invalid, "code_invalid", j[name]);
+            convertToJSON(code_smoothed, "code_smoothed", j[name]);
+
             j[name]["replies"] = replies;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2718,9 +2735,10 @@ typedef struct
             j[name]["value_cc"] = value_cc;
             j[name]["value_fs"] = value_fs;
             j[name]["value_mssc"] = value_mssc;
-            j[name]["value_si"] = convertToJSON(value_si);
+
+            convertToJSON(value_si, "value_si", j[name]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2754,7 +2772,7 @@ typedef struct
             for (int cnt=0; cnt < count; ++cnt)
                 value[cnt].toJSON(j, "bds"+std::to_string(cnt));
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -2785,7 +2803,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
 
     }
@@ -2822,7 +2840,7 @@ typedef struct
             j[name]["split"] = split;
             j[name]["split_pair"] = split_pair;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2892,23 +2910,23 @@ typedef struct
         {
             if (nacp_present)
                 j[name]["value_nacp"] = value_nacp;
-            else
+            else if (write_json_nulls)
                 j[name]["value_nacp"] = nullptr;
 
             if (nic_baro_present)
                 j[name]["value_nic_baro"] = value_nic_baro;
-            else
+            else if (write_json_nulls)
                 j[name]["value_nic_baro"] = nullptr;
 
             if (sil_present)
                 j[name]["value_sil"] = value_sil;
-            else
+            else if (write_json_nulls)
                 j[name]["value_sil"] = nullptr;
 
             j[name]["value_nucp_or_nic"] = value_nucp_or_nic;
             j[name]["value_nucr_or_nacv"] = value_nucr_or_nacv;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -2994,16 +3012,17 @@ typedef struct
                 break;
 
             default:
-                j[name]["source_info"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["source_info"] = nullptr;
                 break;
             }
 
             j[name]["value_ft"] = value;
-            j[name]["value_alt_hold"] = convertToJSON(value_alt_hold);
-            j[name]["value_approach"] = convertToJSON(value_approach);
-            j[name]["value_vnav"] = convertToJSON(value_vnav);
+            convertToJSON(value_alt_hold, "value_alt_hold", j[name]);
+            convertToJSON(value_approach, "value_approach", j[name]);
+            convertToJSON(value_vnav, "value_vnav", j[name]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3046,7 +3065,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3065,7 +3084,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3092,7 +3111,7 @@ typedef struct
             j[name]["transmitter_frequency_mhz"] = transmitter_frequency;
             j[name]["value_ms"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3111,7 +3130,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3130,7 +3149,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3155,7 +3174,7 @@ typedef struct
             j[name]["length"] = length;
             j[name]["value"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3212,21 +3231,22 @@ typedef struct
                 break;
 
             default:
-                j[name]["attitude_info"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["attitude_info"] = nullptr;
                 break;
             }
 
-            j[name]["coasted"] = convertToJSON(coasted);
-            j[name]["confirmed"] = convertToJSON(confirmed);
-            j[name]["doubtful_association"] = convertToJSON(doubtful_association);
-            j[name]["ghost"] = convertToJSON(ghost);
-            j[name]["horizontal_manoeuvre"] = convertToJSON(horizontal_manoeuvre);
-            j[name]["primary_track"] = convertToJSON(primary_track);
-            j[name]["secondary_track"] = convertToJSON(secondary_track);
-            j[name]["smoothed"] = convertToJSON(smoothed);
-            j[name]["tre"] = convertToJSON(tre);
+            convertToJSON(coasted, "coasted", j[name]);
+            convertToJSON(confirmed, "confirmed", j[name]);
+            convertToJSON(doubtful_association, "doubtful_association", j[name]);
+            convertToJSON(ghost, "ghost", j[name]);
+            convertToJSON(horizontal_manoeuvre, "horizontal_manoeuvre", j[name]);
+            convertToJSON(primary_track, "primary_track", j[name]);
+            convertToJSON(secondary_track, "secondary_track", j[name]);
+            convertToJSON(smoothed, "smoothed", j[name]);
+            convertToJSON(tre, "tre", j[name]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3245,7 +3265,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3269,7 +3289,7 @@ typedef struct
             j[name]["value_deg"] = value;
             j[name]["value_acps"] = value_in_acps;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3310,7 +3330,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3354,11 +3374,12 @@ typedef struct
                 j[name]["value_src_info"] = "FMS selected altitude";
                 break;
             default:
-                j[name]["value_src_info"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["value_src_info"] = nullptr;
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3391,7 +3412,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3410,7 +3431,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3429,7 +3450,7 @@ typedef struct
     {
         if (present)
             j[name] = value_rp;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3489,7 +3510,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3519,7 +3540,7 @@ typedef struct
             j[name]["code_garbled"] = code_garbled;
             j[name]["code_invalid"] = code_invalid;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3578,7 +3599,7 @@ typedef struct
             /* Extended SSR mode 1 code */
             if (em1_present)
                 j[name]["value_em1"] = value_em1;
-            else
+            else if (write_json_nulls)
                 j[name]["value_em1"] = nullptr;
 
             // t_Bool ga_present;
@@ -3592,7 +3613,7 @@ typedef struct
                 j[name]["value_ga"] = value_ga;
                 j[name]["value_res"] = value_res;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_ga"] = nullptr;
                 j[name]["value_res"] = nullptr;
@@ -3612,7 +3633,7 @@ typedef struct
                 j[name]["value_nat"] = value_nat;
                 j[name]["value_pin"] = value_pin;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_mis"] = nullptr;
                 j[name]["value_nat"] = nullptr;
@@ -3630,7 +3651,7 @@ typedef struct
                 j[name]["value_lat_deg"] = value_lat;
                 j[name]["value_lon_deg"] = value_lon;
             }
-            else
+            else if (write_json_nulls)
             {
                 j[name]["value_lat_deg"] = nullptr;
                 j[name]["value_lon_deg"] = nullptr;
@@ -3642,7 +3663,7 @@ typedef struct
             /* SSR mode 5 summary */
             if (sum_present)
                 j[name]["value_sum"] = value_sum;
-            else
+            else if (write_json_nulls)
                 j[name]["value_sum"] = nullptr;
 
             // t_Bool tos_present;
@@ -3651,7 +3672,7 @@ typedef struct
             /* Time offset for position and altitude; 1/128 seconds */
             if (tos_present)
                 j[name]["value_tos"] = value_tos;
-            else
+            else if (write_json_nulls)
                 j[name]["value_tos"] = nullptr;
 
             // t_Bool xp_present;
@@ -3660,11 +3681,11 @@ typedef struct
             /* X pulse presence */
             if (xp_present)
                 j[name]["value_xp"] = value_xp;
-            else
+            else if (write_json_nulls)
                 j[name]["value_xp"] = value_xp;
 
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3683,7 +3704,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3735,7 +3756,8 @@ typedef struct
                 j[name]["value_longitudinal"] = "undetermined";
                 break;
             default:
-                j[name]["value_longitudinal"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["value_longitudinal"] = nullptr;
                 break;
             }
 
@@ -3753,7 +3775,8 @@ typedef struct
                 j[name]["value_transversal"] = "undetermined";
                 break;
             default:
-                j[name]["value_transversal"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["value_transversal"] = nullptr;
                 break;
             }
 
@@ -3771,11 +3794,12 @@ typedef struct
                 j[name]["value_vertical"] = "undetermined";
                 break;
             default:
-                j[name]["value_vertical"] = nullptr;
+                if (write_json_nulls)
+                    j[name]["value_vertical"] = nullptr;
                 break;
             }
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3810,7 +3834,7 @@ typedef struct
             /* Length of target; metres */
             if (length_present)
                 j[name]["value_length_m"] = value_length;
-            else
+            else if (write_json_nulls)
                 j[name]["value_length_m"] = nullptr;
 
             // t_Bool orientation_present;
@@ -3819,7 +3843,7 @@ typedef struct
             /* Orientation of target; degrees */
             if (orientation_present)
                 j[name]["value_orientation_deg"] = value_orientation;
-            else
+            else if (write_json_nulls)
                 j[name]["value_orientation_deg"] = nullptr;
 
             // t_Bool width_present;
@@ -3828,10 +3852,10 @@ typedef struct
             /* Width of target; metres */
             if (width_present)
                 j[name]["value_width_m"] = value_width;
-            else
+            else if (write_json_nulls)
                 j[name]["value_width_m"] = nullptr;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -3905,7 +3929,7 @@ typedef struct
            this track; seconds */
             if (ads_present)
                 j[name]["value_ads"] = value_ads;
-            else
+            else if (write_json_nulls)
                 j[name]["value_ads"] = nullptr;
 
             // t_Bool es_present;
@@ -3916,7 +3940,7 @@ typedef struct
            update this track; seconds */
             if (es_present)
                 j[name]["value_es"] = value_es;
-            else
+            else if (write_json_nulls)
                 j[name]["value_es"] = nullptr;
 
             // t_Bool lop_present;
@@ -3926,7 +3950,7 @@ typedef struct
            this track; seconds */
             if (lop_present)
                 j[name]["value_lop"] = value_lop;
-            else
+            else if (write_json_nulls)
                 j[name]["value_lop"] = nullptr;
 
             // t_Bool mds_present;
@@ -3936,7 +3960,7 @@ typedef struct
            this track; seconds */
             if (mds_present)
                 j[name]["value_mds"] = value_mds;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mds"] = nullptr;
 
             // t_Bool mlt_present;
@@ -3946,7 +3970,7 @@ typedef struct
            this track; seconds */
             if (mlt_present)
                 j[name]["value_mlt"] = value_mlt;
-            else
+            else if (write_json_nulls)
                 j[name]["value_mlt"] = nullptr;
 
             // t_Bool psr_present;
@@ -3956,7 +3980,7 @@ typedef struct
            this track; seconds */
             if (psr_present)
                 j[name]["value_psr"] = value_psr;
-            else
+            else if (write_json_nulls)
                 j[name]["value_psr"] = nullptr;
 
             // t_Bool ssr_present;
@@ -3966,7 +3990,7 @@ typedef struct
            this track; seconds */
             if (ssr_present)
                 j[name]["value_ssr"] = value_ssr;
-            else
+            else if (write_json_nulls)
                 j[name]["value_ssr"] = nullptr;
 
             // t_Bool trk_present;
@@ -3975,7 +3999,7 @@ typedef struct
             /* Actual track age since first occurence; seconds */
             if (trk_present)
                 j[name]["value_trk"] = value_trk;
-            else
+            else if (write_json_nulls)
                 j[name]["value_trk"] = nullptr;
 
             // t_Bool uat_present;
@@ -3985,7 +4009,7 @@ typedef struct
            this track; seconds */
             if (uat_present)
                 j[name]["value_uat"] = value_uat;
-            else
+            else if (write_json_nulls)
                 j[name]["value_uat"] = nullptr;
 
             // t_Bool vdl_present;
@@ -3995,10 +4019,10 @@ typedef struct
            this track; seconds */
             if (vdl_present)
                 j[name]["value_vdl"] = value_vdl;
-            else
+            else if (write_json_nulls)
                 j[name]["value_vdl"] = nullptr;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4017,7 +4041,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4041,7 +4065,7 @@ typedef struct
             j[name]["value_latitude_rad"] = value_latitude;
             j[name]["value_longitude_rad"] = value_longitude;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4059,8 +4083,8 @@ typedef struct
     void toJSON (nlohmann::json& j, const string& name)
     {
         if (present)
-            j[name] = convertToJSON(value);
-        else
+            convertToJSON(value, name, j);
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4084,7 +4108,7 @@ typedef struct
             j[name]["value_ps"] = value_ps;
             j[name]["value_ss"] = value_ss;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4104,7 +4128,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4123,7 +4147,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4155,7 +4179,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4174,7 +4198,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4195,10 +4219,10 @@ typedef struct
     {
         if (present)
         {
-            j[name]["range_exceeded"] = convertToJSON(range_exceeded);
+            convertToJSON(range_exceeded, "range_exceeded", j[name]);
             j[name]["value_ms"] = value;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4226,7 +4250,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4245,7 +4269,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4269,7 +4293,7 @@ typedef struct
             for (unsigned int cnt=0; cnt < count; ++cnt)
                 j[name].push_back (list[cnt]);
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4288,7 +4312,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4307,7 +4331,7 @@ typedef struct
     {
         if (present)
             j[name] = value;
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4334,7 +4358,7 @@ typedef struct
             j[name]["value_lat_rad"] = value_lat;
             j[name]["value_lon_rad"] = value_lon;
         }
-        else
+        else if (write_json_nulls)
             j[name] = nullptr;
     }
 #endif
@@ -4357,8 +4381,24 @@ typedef struct
 /* =================================================== */
 
 /* ADS-B report: */
-typedef struct
+#if USE_JSON
+
+struct JSONConvertible
 {
+    JSONConvertible() = default;
+    virtual ~JSONConvertible() = default;
+
+    //virtual void toJSON (nlohmann::json& j)=0;
+};
+
+struct t_Adsb : public JSONConvertible
+{
+    t_Adsb() = default;
+    virtual ~t_Adsb() = default;
+#else
+struct t_Adsb
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Aircraft_Operational_Status aircraft_operational_status;
@@ -4485,7 +4525,7 @@ typedef struct
     /* WGS-84 position */
 
 #if USE_JSON
-    void toJSON (nlohmann::json& j)
+    virtual void toJSON (nlohmann::json& j)
     {
         j["message_type"] = "ads-b target";
         j["version"] = "1.0";
@@ -4544,7 +4584,7 @@ typedef struct
         /* Detection type */
 
         // t_Tres differential_correction;
-        j["differential_correction"] = convertToJSON(differential_correction);
+        convertToJSON(differential_correction, "differential_correction", j);
         /* Differential correction */
 
         // t_Emitter_Category emitter_category;
@@ -4587,7 +4627,7 @@ typedef struct
 //        /* ADS-B report has been listed */
 
         // t_Tres independent_position_check_failed;
-        j["independent_position_check_failed"] = convertToJSON(independent_position_check_failed);
+        convertToJSON(independent_position_check_failed, "independent_position_check_failed", j);
         /* Independent position check failed */
 
         // t_Intermediate_State_Selected_Altitude intermediate_selected_altitude;
@@ -4603,11 +4643,11 @@ typedef struct
         /* Link technology indicator */
 
         // t_Tres list_lookup_check_failed;
-        j["list_lookup_check_failed"] = convertToJSON(list_lookup_check_failed);
+        convertToJSON(list_lookup_check_failed, "list_lookup_check_failed", j);
         /* List lookup check failed */
 
         // t_Tres local_decoding_position_jump;
-        j["local_decoding_position_jump"] = convertToJSON(local_decoding_position_jump);
+        convertToJSON(local_decoding_position_jump, "local_decoding_position_jump", j);
         /* Local decoding position jump */
 
         // t_Magnetic_Heading magnetic_heading;
@@ -4635,7 +4675,7 @@ typedef struct
         /* MOPS version */
 
         // t_Tres nogo_bit_status;
-        j["nogo_bit_status"] = convertToJSON(nogo_bit_status);
+        convertToJSON(nogo_bit_status, "nogo_bit_status", j);
         /* NOGO bit status */
 
         // t_Quality_Indicators quality_indicators;
@@ -4643,11 +4683,11 @@ typedef struct
         /* Quality indicators */
 
         // t_Tres range_check;
-        j["range_check"] = convertToJSON(range_check);
+        convertToJSON(range_check, "range_check", j);
         /* Range check passed, CPR validation pending */
 
         // t_Tres range_check_failed;
-        j["range_check_failed"] = convertToJSON(range_check_failed);
+        convertToJSON(range_check_failed, "range_check_failed", j);
         /* Range check failed */
 
         // t_Roll_Angle roll_angle;
@@ -4655,7 +4695,7 @@ typedef struct
         /* Roll angle */
 
         // t_Tres selected_altitude_available;
-        j["selected_altitude_available"] = convertToJSON(selected_altitude_available);
+        convertToJSON(selected_altitude_available, "selected_altitude_available", j);
         /* Selected altitude available */
 
 //        t_Sensor_Number sensor_number;
@@ -4737,11 +4777,18 @@ typedef struct
         /* WGS-84 position */
     }
 #endif
-} t_Adsb;
+};
 
 /* Multilateration report: */
-typedef struct
+#if USE_JSON
+struct t_Mlat : public JSONConvertible
 {
+    t_Mlat() = default;
+    virtual ~t_Mlat() = default;
+#else
+struct t_Mlat
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Byte asterix_category;
@@ -4959,19 +5006,19 @@ typedef struct
         /* Frame time */
 
         // t_Tres fs_airborne;
-        j["fs_airborne"] = convertToJSON(fs_airborne);
+        convertToJSON(fs_airborne, "fs_airborne", j);
         /* SSR mode S flight status: aircraft airborne */
 
         // t_Tres fs_alert;
-        j["fs_alert"] = convertToJSON(fs_alert);
+        convertToJSON(fs_alert, "fs_alert", j);
         /* SSR mode S flight status: alert */
 
         // t_Tres fs_on_ground;
-        j["fs_on_ground"] = convertToJSON(fs_on_ground);
+        convertToJSON(fs_on_ground, "fs_on_ground", j);
         /* SSR mode S flight status: aircraft on ground */
 
         // t_Tres fs_spi;
-        j["fs_spi"] = convertToJSON(fs_spi);
+        convertToJSON(fs_spi, "fs_spi", j);
         /* SSR mode S flight status: SPI */
 
         // t_WGS84_Altitude geometric_altitude;
@@ -5073,7 +5120,7 @@ typedef struct
 
     }
 #endif
-} t_Mlat;
+};
 
 /* Object types: */
 typedef enum
@@ -5100,8 +5147,15 @@ typedef enum
 } t_Object_Type;
 
 /* Radar service message: */
-typedef struct
+#if USE_JSON
+struct t_Rsrv : public JSONConvertible
 {
+    t_Rsrv() = default;
+    virtual ~t_Rsrv() = default;
+#else
+struct t_Rsrv
+{
+#endif
     t_Rsrv_Type rsrv_type;
     /* Type of radar service message */
 
@@ -5173,7 +5227,7 @@ typedef struct
         j["version"] = "1.0";
 
         // t_Rsrv_Type rsrv_type;
-        j["rsrv_type"] = convertToJSON(rsrv_type);
+        convertToJSON(rsrv_type, "rsrv_type", j);
         /* Type of radar service message */
 
 //        t_Bool activate_filtering_zone;
@@ -5276,11 +5330,18 @@ typedef struct
 //        /* Warning/error conditions */
     }
 #endif
-} t_Rsrv;
+};
 
 /* Radar target report: */
-typedef struct
+#if USE_JSON
+struct t_Rtgt : public JSONConvertible
 {
+    t_Rtgt() = default;
+    virtual ~t_Rtgt() = default;
+#else
+struct t_Rtgt
+{
+#endif
     t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
     /* ACAS resolution advisory report */
     t_Aircraft_Identification aircraft_identification;
@@ -5466,7 +5527,7 @@ typedef struct
         /* Calculated Doppler speed */
 
         // t_Tres civil_emergency;
-        j ["civil_emergency"] = convertToJSON(civil_emergency);
+        convertToJSON(civil_emergency, "civil_emergency", j);
         /* Civil emergency indication */
 
         // t_Computed_Position computed_position;
@@ -5494,7 +5555,7 @@ typedef struct
 
         if (elevation_defined)
             j ["elevation"] = elevation;
-        else
+        else if (write_json_nulls)
             j ["elevation"] = nullptr;
 
         // t_Real elevation;
@@ -5503,15 +5564,15 @@ typedef struct
         /* Target elevation defined */
 
         // t_Tres emergency_1;
-        j ["emergency_1_a7500"] = convertToJSON(emergency_1);
+        convertToJSON(emergency_1, "emergency_1_a7500", j);
         /* Emergency indication (A7500) */
 
         // t_Tres emergency_2;
-        j ["emergency_2_a7600"] = convertToJSON(emergency_2);
+        convertToJSON(emergency_2, "emergency_2_a7600", j);
         /* Emergency indication (A7600) */
 
         // t_Tres emergency_3;
-        j ["emergency_3_a7700"] = convertToJSON(emergency_3);
+        convertToJSON(emergency_3, "emergency_3_a7700", j);
         /* Emergency indication (A7700) */
 
         // t_Time_of_Day estimated_time;
@@ -5543,19 +5604,19 @@ typedef struct
         /* From RDP chain 2 */
 
         // t_Tres fs_airborne;
-        j ["fs_airborne"] = convertToJSON(fs_airborne);
+        convertToJSON(fs_airborne, "fs_airborne", j);
         /* SSR mode S flight status: aircraft airborne */
 
         // t_Tres fs_alert;
-        j ["fs_alert"] = convertToJSON(fs_alert);
+        convertToJSON(fs_alert, "fs_alert", j);
         /* SSR mode S flight status: alert */
 
         // t_Tres fs_on_ground;
-        j ["fs_on_ground"] = convertToJSON(fs_on_ground);
+        convertToJSON(fs_on_ground, "fs_on_ground", j);
         /* SSR mode S flight status: aircraft on ground */
 
         // t_Tres fs_spi;
-        j ["fs_spi"] = convertToJSON(fs_spi);
+        convertToJSON(fs_spi, "fs_spi", j);
         /* SSR mode S flight status: SPI */
 
         // t_Ground_Vector ground_vector;
@@ -5590,11 +5651,11 @@ typedef struct
         /* Metric height */
 
         // t_Tres military_emergency;
-        j ["military_emergency"] = convertToJSON(military_emergency);
+        convertToJSON(military_emergency, "military_emergency", j);
         /* Military emergency indication */
 
         // t_Tres military_ident;
-        j ["military_ident"] = convertToJSON(military_ident);
+        convertToJSON(military_ident, "military_ident", j);
         /* Military ident indication */
 
         // t_Mode_Info mode_1_info;
@@ -5670,7 +5731,7 @@ typedef struct
         /* Sensor number */
 
         // t_Tres special_position_indication;
-        j ["special_position_indication"] = convertToJSON(special_position_indication);
+        convertToJSON(special_position_indication, "special_position_indication", j);
         /* Special Position Indication flag */
 
         // t_Measured_Amplitude ssr_amplitude;
@@ -5694,7 +5755,7 @@ typedef struct
 //       detection time */
 
         // t_Tres to_be_cancelled;
-        j ["to_be_cancelled"] = convertToJSON(to_be_cancelled);
+        convertToJSON(to_be_cancelled, "to_be_cancelled", j);
         /* Radar track to be cancelled */
 
 //        t_Bool to_be_listed;
@@ -5712,7 +5773,7 @@ typedef struct
 //        /* X pulses */
     }
 #endif
-} t_Rtgt;
+};
 
 /* Sensor status: */
 typedef struct
@@ -5787,8 +5848,15 @@ typedef struct
 } t_Step;
 
 /* System track information: */
-typedef struct
+#if USE_JSON
+struct t_Strk : public JSONConvertible
 {
+    t_Strk() = default;
+    virtual ~t_Strk() = default;
+#else
+struct t_Strk
+{
+#endif
     t_Byte asterix_category;
     /* ASTERIX category */
     t_Bool calculated_cartesian_velocity_accuracy_present;
@@ -6143,7 +6211,7 @@ typedef struct
             j ["calculated_x_velocity_accuracy_kn"] = calculated_x_velocity_accuracy;
             j ["calculated_y_velocity_accuracy_kn"] = calculated_y_velocity_accuracy;
         }
-        else
+        else if (write_json_nulls)
         {
             j ["calculated_x_velocity_accuracy_kn"] = nullptr;
             j ["calculated_y_velocity_accuracy_kn"] = nullptr;
@@ -6162,7 +6230,7 @@ typedef struct
             j ["calculated_track_speed_accuracy_kn"] = calculated_track_speed_accuracy;
             j ["calculated_track_heading_accuracy_deg"] = calculated_track_heading_accuracy;
         }
-        else
+        else if (write_json_nulls)
         {
             j ["calculated_track_speed_accuracy_kn"] = nullptr;
             j ["calculated_track_heading_accuracy_deg"] = nullptr;
@@ -6179,7 +6247,7 @@ typedef struct
             j ["calculated_track_speed_ms"] = calculated_track_speed;
             j ["calculated_track_heading_rad"] = calculated_track_heading;
         }
-        else
+        else if (write_json_nulls)
         {
             j ["calculated_track_speed_ms"] = nullptr;
             j ["calculated_track_heading_rad"] = nullptr;
@@ -6196,7 +6264,7 @@ typedef struct
             j ["calculated_x_position_accuracy_nm"] = calculated_x_position_accuracy;
             j ["calculated_y_position_accuracy_nm"] = calculated_y_position_accuracy;
         }
-        else
+        else if (write_json_nulls)
         {
             j ["calculated_x_position_accuracy_nm"] = nullptr;
             j ["calculated_y_position_accuracy_nm"] = nullptr;
@@ -6210,7 +6278,7 @@ typedef struct
        feet/minute */
         if (calculated_rate_of_climb_descent_accuracy_present)
             j ["calculated_rate_of_climb_descent_accuracy_fm"] = calculated_rate_of_climb_descent_accuracy;
-        else
+        else if (write_json_nulls)
             j ["calculated_rate_of_climb_descent_accuracy_fm"] = nullptr;
 
         // t_Bool calculated_rate_of_turn_accuracy_present;
@@ -6220,7 +6288,7 @@ typedef struct
        degrees/second */
         if (calculated_rate_of_turn_accuracy_present)
             j ["calculated_rate_of_turn_accuracy_degs"] = calculated_rate_of_turn_accuracy;
-        else
+        else if (write_json_nulls)
             j ["calculated_rate_of_turn_accuracy_degs"] = nullptr;
 
         // t_Bool calculated_rate_of_turn_present;
@@ -6229,7 +6297,7 @@ typedef struct
         /* Calculated rate of turn; degrees/second */
         if (calculated_rate_of_turn_present)
             j ["calculated_rate_of_turn_degs"] = calculated_rate_of_turn;
-        else
+        else if (write_json_nulls)
             j ["calculated_rate_of_turn_degs"] = nullptr;
 
         // t_Bool calculated_track_altitude_accuracy_present;
@@ -6238,7 +6306,7 @@ typedef struct
         /* Accuracy of calculated track altitude; meters */
         if (calculated_track_altitude_accuracy_present)
             j ["calculated_track_altitude_accuracy_m"] = calculated_track_altitude_accuracy;
-        else
+        else if (write_json_nulls)
             j ["calculated_track_altitude_accuracy_m"] = nullptr;
 
         // t_Bool calculated_track_flight_level_accuracy_present;
@@ -6249,7 +6317,7 @@ typedef struct
        25 feet */
         if (calculated_track_flight_level_accuracy_present)
             j ["calculated_track_flight_level_accuracy_ft"] = calculated_track_flight_level_accuracy;
-        else
+        else if (write_json_nulls)
             j ["calculated_track_flight_level_accuracy_ft"] = nullptr;
 
         // t_Bool callsign_present;
@@ -6258,7 +6326,7 @@ typedef struct
         /* Callsign */
         if (callsign_present)
             j ["callsign"] = callsign.value;
-        else
+        else if (write_json_nulls)
             j ["callsign"] = nullptr;
 
         // t_Bool category_of_turbulence_present;
@@ -6267,7 +6335,7 @@ typedef struct
         /* Category of turbulence */
         if (category_of_turbulence_present)
             j ["category_of_turbulence"] = category_of_turbulence;
-        else
+        else if (write_json_nulls)
             j ["category_of_turbulence"] = nullptr;
 
         // t_Bool cleared_flight_level_present;
@@ -6276,7 +6344,7 @@ typedef struct
         /* Current cleared flight level; 25 feet */
         if (cleared_flight_level_present)
             j ["cleared_flight_level_ft"] = cleared_flight_level;
-        else
+        else if (write_json_nulls)
             j ["cleared_flight_level_ft"] = nullptr;
 
         // t_Bool control_position_present;
@@ -6285,7 +6353,7 @@ typedef struct
         /* Current control position */
         if (control_position_present)
             j ["control_position"] = control_position;
-        else
+        else if (write_json_nulls)
             j ["control_position"] = nullptr;
 
 //        t_Data_Format data_format;
@@ -6297,7 +6365,7 @@ typedef struct
         /* Departure airport */
         if (departure_airport_present)
             j ["departure_airport"] = departure_airport;
-        else
+        else if (write_json_nulls)
             j ["departure_airport"] = nullptr;
 
         // t_Bool destination_airport_present;
@@ -6306,7 +6374,7 @@ typedef struct
         /* Destination airport */
         if (destination_airport_present)
             j ["destination_airport"] = destination_airport;
-        else
+        else if (write_json_nulls)
             j ["destination_airport"] = nullptr;
 
         // t_Bool flight_category_present;
@@ -6315,7 +6383,7 @@ typedef struct
         /* Flight category */
         if (flight_category_present)
             j ["flight_category"] = flight_category;
-        else
+        else if (write_json_nulls)
             j ["flight_category"] = nullptr;
 
         // t_Bool fpps_sacsic_present;
@@ -6324,7 +6392,7 @@ typedef struct
         /* FPPS SAC/SIC */
         if (fpps_sacsic_present)
             j ["fpps_sacsic"] = fpps_sacsic;
-        else
+        else if (write_json_nulls)
             j ["fpps_sacsic"] = nullptr;
 
         // t_Bool mode_4_info_present;
@@ -6333,7 +6401,7 @@ typedef struct
         /* SSR mode 4 information */
         if (mode_4_info_present)
             j ["mode_4_info"] = mode_4_info;
-        else
+        else if (write_json_nulls)
             j ["mode_4_info"] = nullptr;
 
         // t_Bool mode_of_flight_probabilities_present;
@@ -6350,7 +6418,7 @@ typedef struct
             j ["mof_transversal_probability"] = mof_transversal_probability;
             j ["mof_vertical_probability"] = mof_vertical_probability;
         }
-        else
+        else if (write_json_nulls)
         {
             j ["mof_longitudinal_probability"] = nullptr;
             j ["mof_transversal_probability"] = nullptr;
@@ -6364,13 +6432,15 @@ typedef struct
         /*  0 ... barometric altitude,
         1 ... geometric altitude */
         if (most_reliable_height_present)
+        {
             if (most_reliable_height)
                 j ["most_reliable_height"] = "baro";
             else if (most_reliable_height)
                 j ["most_reliable_height"] = "geom";
-            else
+            else if (write_json_nulls)
                 j ["most_reliable_height"] = nullptr;
-        else
+        }
+        else if (write_json_nulls)
             j ["most_reliable_height"] = nullptr;
 
         // t_Bool pln_number_present;
@@ -6379,7 +6449,7 @@ typedef struct
         /* PLN number */
         if (pln_number_present)
             j ["pln_number"] = pln_number;
-        else
+        else if (write_json_nulls)
             j ["pln_number"] = nullptr;
 
         // t_Bool plot_mode_3a_age_present;
@@ -6389,7 +6459,7 @@ typedef struct
        the track; seconds */
         if (plot_mode_3a_age_present)
             j ["plot_mode_3a_age"] = plot_mode_3a_age;
-        else
+        else if (write_json_nulls)
             j ["plot_mode_3a_age"] = nullptr;
 
         // t_Bool plot_mode_c_age_present;
@@ -6399,7 +6469,7 @@ typedef struct
        the track; seconds */
         if (plot_mode_c_age_present)
             j ["plot_mode_c_age"] = plot_mode_c_age;
-        else
+        else if (write_json_nulls)
             j ["plot_mode_c_age"] = nullptr;
 
         // t_Bool position_uncertainty_present;
@@ -6408,7 +6478,7 @@ typedef struct
         /* Position uncertainty */
         if (position_uncertainty_present)
             j ["position_uncertainty"] = position_uncertainty;
-        else
+        else if (write_json_nulls)
             j ["position_uncertainty"] = nullptr;
 
         // t_Bool track_mode_3a_age_present;
@@ -6418,7 +6488,7 @@ typedef struct
        seconds */
         if (track_mode_3a_age_present)
             j ["track_mode_3a_age"] = track_mode_3a_age;
-        else
+        else if (write_json_nulls)
             j ["track_mode_3a_age"] = nullptr;
 
         // t_Bool track_psr_age_present;
@@ -6428,7 +6498,7 @@ typedef struct
        used to update the track; seconds */
         if (track_psr_age_present)
             j ["track_psr_age"] = track_psr_age;
-        else
+        else if (write_json_nulls)
             j ["user_number"] = nullptr;
 
         // t_Bool track_ssr_age_present;
@@ -6438,7 +6508,7 @@ typedef struct
        used to update the track; seconds */
         if (track_ssr_age_present)
             j ["track_ssr_age"] = track_ssr_age;
-        else
+        else if (write_json_nulls)
             j ["track_ssr_age"] = nullptr;
 
         // t_Bool track_numbering_indicator_present;
@@ -6447,7 +6517,7 @@ typedef struct
         /* Track numbering indicator */
         if (track_numbering_indicator_present)
             j ["track_numbering_indicator"] = track_numbering_indicator;
-        else
+        else if (write_json_nulls)
             j ["track_numbering_indicator"] = nullptr;
 
         // t_Bool track_quality_present;
@@ -6456,7 +6526,7 @@ typedef struct
         /* Track quality */
         if (track_quality_present)
             j ["track_quality"] = track_quality;
-        else
+        else if (write_json_nulls)
             j ["track_quality"] = nullptr;
 
         // t_Bool type_of_aircraft_present;
@@ -6465,7 +6535,7 @@ typedef struct
         /* Type of aircraft */
         if (type_of_aircraft_present)
             j ["type_of_aircraft"] = type_of_aircraft;
-        else
+        else if (write_json_nulls)
             j ["type_of_aircraft"] = nullptr;
 
         // t_Bool type_of_message_present;
@@ -6474,7 +6544,7 @@ typedef struct
         /* Type of message (family, nature) */
         if (type_of_message_present)
             j ["type_of_message"] = type_of_message;
-        else
+        else if (write_json_nulls)
             j ["type_of_message"] = nullptr;
 
         // t_Bool user_number_present;
@@ -6483,7 +6553,7 @@ typedef struct
         /* User number */
         if (user_number_present)
             j ["user_number"] = user_number;
-        else
+        else if (write_json_nulls)
             j ["user_number"] = nullptr;
 
         // t_ACAS_Resolution_Advisory_Report acas_resolution_advisory_report;
@@ -6491,7 +6561,7 @@ typedef struct
         /* ACAS resolution advisory report */
 
         // t_Tres adsb_blunder_detected;
-        j ["adsb_blunder_detected"] = convertToJSON(adsb_blunder_detected);
+        convertToJSON(adsb_blunder_detected, "adsb_blunder_detected", j);
         /* ADS-B blunder detected */
 
         // t_Aircraft_Address aircraft_address;
@@ -6503,15 +6573,15 @@ typedef struct
         /* Aircraft identification */
 
         // t_Tres amalgamated_track;
-        j ["amalgamated_track"] = convertToJSON(amalgamated_track);
+        convertToJSON(amalgamated_track, "amalgamated_track", j);
         /* Amalgamated track */
 
         // t_Tres assigned_code_conflict;
-        j ["assigned_code_conflict"] = convertToJSON(assigned_code_conflict);
+        convertToJSON(assigned_code_conflict, "assigned_code_conflict", j);
         /* Conflict in assigned SSR mode 3/A code */
 
         // t_Tres background_service;
-        j ["background_service"] = convertToJSON(background_service);
+        convertToJSON(background_service, "background_service", j);
         /* Background (not complementary) service */
 
         // t_Barometric_Vertical_Rate barometric_vertical_rate;
@@ -6547,7 +6617,7 @@ typedef struct
         /* Calculated WGS-84 position */
 
         // t_Tres coasted_track;
-        j ["coasted_track"] = convertToJSON(coasted_track);
+        convertToJSON(coasted_track, "coasted_track", j);
         /* Coasted track indication */
 
         // t_Communications_Capability communications_capability;
@@ -6563,7 +6633,7 @@ typedef struct
         /* Final state selected altitude */
 
         // t_Tres flight_plan_correlated;
-        j ["flight_plan_correlated"] = convertToJSON(flight_plan_correlated);
+        convertToJSON(flight_plan_correlated, "flight_plan_correlated", j);
         /* Flight plan correlated */
 
         // t_Flight_Status flight_status;
@@ -6571,7 +6641,7 @@ typedef struct
         /* Flight status */
 
         // t_Tres formation_flight;
-        j ["formation_flight"] = convertToJSON(formation_flight);
+        convertToJSON(formation_flight, "formation_flight", j);
         /* Formation flight indication */
 
         // t_Frame_Date frame_date;
@@ -6595,7 +6665,7 @@ typedef struct
         /* Geometric vertical rate */
 
         // t_Tres ghost_track;
-        j ["ghost_track"] = convertToJSON(ghost_track);
+        convertToJSON(ghost_track, "ghost_track", j);
         /* System track marked as ghost */
 
         // t_Ground_Vector ground_vector;
@@ -6630,7 +6700,7 @@ typedef struct
         /* Magnetic heading */
 
         // t_Tres manoeuvring_track;
-        j ["manoeuvring_track"] = convertToJSON(manoeuvring_track);
+        convertToJSON(manoeuvring_track, "manoeuvring_track", j);
         /* System track marked as manoeuvring */
 
         //t_Measured_Information measured_information;
@@ -6642,11 +6712,11 @@ typedef struct
         /* Measured track mode C height */
 
         // t_Tres military_emergency;
-        j ["military_emergency"] = convertToJSON(military_emergency);
+        convertToJSON(military_emergency, "military_emergency", j);
         /* Military emergency indication */
 
         // t_Tres military_ident;
-        j ["military_ident"] = convertToJSON(military_ident);
+        convertToJSON(military_ident, "military_ident", j);
         /* Military identification */
 
         // t_Bool miss_update;
@@ -6682,35 +6752,35 @@ typedef struct
         /* SSR mode S MB data (BDS registers) */
 
         // t_Tres multi_sensor_track;
-        j ["multi_sensor_track"] = convertToJSON(multi_sensor_track);
+        convertToJSON(multi_sensor_track, "multi_sensor_track", j);
         /* Multi-sensor or mono-sensor track */
 
         // t_Tres observed_by_ads;
-        j ["observed_by_ads"] = convertToJSON(observed_by_ads);
+        convertToJSON(observed_by_ads, "observed_by_ads", j);
         /* Observed by ADS */
 
         // t_Tres observed_by_mds;
-        j ["observed_by_mds"] = convertToJSON(observed_by_mds);
+        convertToJSON(observed_by_mds, "observed_by_mds", j);
         /* Observed by SSR mode S */
 
         // t_Tres observed_by_psr;
-        j ["observed_by_psr"] = convertToJSON(observed_by_psr);
+        convertToJSON(observed_by_psr, "observed_by_psr", j);
         /* Observed by PSR */
 
         // t_Tres observed_by_ssr;
-        j ["observed_by_ssr"] = convertToJSON(observed_by_ssr);
+        convertToJSON(observed_by_ssr, "observed_by_ssr", j);
         /* Observed by SSR */
 
         // t_Tres possible_split_pair;
-        j ["possible_split_pair"] = convertToJSON(possible_split_pair);
+        convertToJSON(possible_split_pair, "possible_split_pair", j);
         /* Possibly a component of a split track pair */
 
         // t_Tres possible_split_parent;
-        j ["possible_split_parent"] = convertToJSON(possible_split_parent);
+        convertToJSON(possible_split_parent, "possible_split_parent", j);
         /* Parent of a possible split track */
 
         // t_Tres possible_split_track;
-        j ["possible_split_track"] = convertToJSON(possible_split_track);
+        convertToJSON(possible_split_track, "possible_split_track", j);
         /* Possibly a split track */
 
         // t_Strk_Selected_Altitude selected_altitude;
@@ -6729,19 +6799,19 @@ typedef struct
         /* Service identification */
 
         // t_Tres simulated;
-        j ["simulated"] = convertToJSON(simulated);
+        convertToJSON(simulated, "simulated", j);
         /* Simulated or active system track flag */
 
         // t_Tres slave_track_promotion;
-        j ["slave_track_promotion"] = convertToJSON(slave_track_promotion);
+        convertToJSON(slave_track_promotion, "slave_track_promotion", j);
         /* Slave track promotion */
 
         // t_Tres special_position_indication;
-        j ["special_position_indication"] = convertToJSON(special_position_indication);
+        convertToJSON(special_position_indication, "special_position_indication", j);
         /* Special position indication */
 
         // t_Tres special_used_code;
-        j ["special_used_code"] = convertToJSON(special_used_code);
+        convertToJSON(special_used_code, "special_used_code", j);
         /* Special used SSR mode 3/A code */
 
         // int split_qualification_factor;
@@ -6753,11 +6823,11 @@ typedef struct
         /* Target size and orientation */
 
         // t_Tres tentative_track;
-        j ["tentative_track"] = convertToJSON(tentative_track);
+        convertToJSON(tentative_track, "tentative_track", j);
         /* Tentative or confirmed track */
 
         // t_Tres test_target;
-        j ["test_target"] = convertToJSON(test_target);
+        convertToJSON(test_target, "test_target", j);
         /* Test target track flag */
 
         // t_Time_Delay time_delay;
@@ -6777,7 +6847,7 @@ typedef struct
 //        /* System track information to be listed */
 
         // t_Tres track_created;
-        j ["track_created"] = convertToJSON(track_created);
+        convertToJSON(track_created, "track_created", j);
         /* Track created */
 
         // t_Track_Number track_number;
@@ -6796,7 +6866,8 @@ typedef struct
             j["track_position_coding_precision"] = "1/32 nmi";
             break;
         default:
-            j["track_position_coding_precision"] = nullptr;
+            if (write_json_nulls)
+                j["track_position_coding_precision"] = nullptr;
             break;
         }
 
@@ -6805,15 +6876,15 @@ typedef struct
         /* Track status present */
 
         // t_Tres track_terminated;
-        j ["track_terminated"] = convertToJSON(track_terminated);
+        convertToJSON(track_terminated, "track_terminated", j);
         /* Track terminated */
 
         // t_Tres track_with_aircraft_derived_data;
-        j ["track_with_aircraft_derived_data"] = convertToJSON(track_with_aircraft_derived_data);
+        convertToJSON(track_with_aircraft_derived_data, "track_with_aircraft_derived_data", j);
         /* Track updated with aircraft derived data */
 
         // t_Tres transponder_delay_correction;
-        j ["transponder_delay_correction"] = convertToJSON(transponder_delay_correction);
+        convertToJSON(transponder_delay_correction, "transponder_delay_correction", j);
         /* Accurate estimation of transponder delay */
 
         // t_True_Airspeed true_airspeed;
@@ -6829,7 +6900,7 @@ typedef struct
         /* Vehicle fleet identification */
     }
 #endif
-} t_Strk;
+};
 
 /* Wall (date and) time: */
 typedef struct
