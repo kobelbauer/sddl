@@ -59,7 +59,7 @@ private:
 
     bool json_zip_file_open_ {false};
     struct archive* json_zip_file_ {nullptr};
-    struct archive_entry* json_zip_file_entry_ {nullptr};
+
 
     size_t rec_num_cnt_ {0};
     std::vector <JSONConvertible*> data_;

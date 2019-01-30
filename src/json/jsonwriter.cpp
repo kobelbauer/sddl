@@ -23,14 +23,15 @@
 #include <tbb/tbb.h>
 
 #include <archive.h>
-#include <archive_entry.h>
 
 #include <chrono>
 #include <thread>
 
-const unsigned int DATA_WRITE_SIZE = 1000;
+const unsigned int DATA_WRITE_SIZE = 100000;
 
 using namespace tbb;
+
+size_t JSONTextZipFileWriteTask::entry_cnt_ = 0;
 
 JSONWriter::JSONWriter(JSON_OUTPUT_TYPE json_output_type, const std::string& json_path)
     : json_output_type_{json_output_type}, json_path_ {json_path}
@@ -591,12 +592,6 @@ void JSONWriter::openJsonZipFile ()
         break;
     }
 
-    json_zip_file_entry_ = archive_entry_new();
-    archive_entry_set_pathname(json_zip_file_entry_, filename.c_str());
-    archive_entry_set_filetype(json_zip_file_entry_, AE_IFREG);
-    archive_entry_set_perm(json_zip_file_entry_, 0644);
-    archive_write_header(json_zip_file_, json_zip_file_entry_);
-
     json_zip_file_open_ = TRUE;
 }
 
@@ -644,7 +639,6 @@ void JSONWriter::writeBinaryToZipFile ()
 
 void JSONWriter::closeJsonZipFile ()
 {
-    archive_entry_free(json_zip_file_entry_);
     archive_write_close(json_zip_file_); // Note 4
     archive_write_free(json_zip_file_); // Note 5
 
