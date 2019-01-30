@@ -670,7 +670,7 @@ static void print_subtypes (void);
 		}
 
 		list_text (-1, "; list of file '%s':\n", input_path);
-        list_text (-1, "; printed %s by %s (%s)\n", tmp, M_PRGNAM, PACKAGE_VERSION);
+        list_text (-1, "; printed %s by %s (%s)\n", tmp, M_PRGNAM, PACKAGE_VERSION.c_str());
 		list_text (-1, "\n");
 	}
 #endif /* LISTER */
