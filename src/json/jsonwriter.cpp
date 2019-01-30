@@ -528,6 +528,8 @@ void JSONWriter::writeTextToFile ()
                 json_file_, std::move(text_data_), *this);
     tbb::task::enqueue(*write_task);
 
+    text_data_.clear();
+
     assert (!text_data_.size());
 }
 
@@ -549,6 +551,8 @@ void JSONWriter::writeBinaryToFile ()
     JSONBinaryFileWriteTask* write_task = new (tbb::task::allocate_root()) JSONBinaryFileWriteTask (
                 json_file_, std::move(binary_data_), *this);
     tbb::task::enqueue(*write_task);
+
+    binary_data_.clear();
 
     assert (!binary_data_.size());
 }
