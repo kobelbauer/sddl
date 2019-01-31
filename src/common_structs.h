@@ -4525,7 +4525,7 @@ struct t_Adsb
     /* WGS-84 position */
 
 #if USE_JSON
-    virtual void toJSON (nlohmann::json& j)
+    void toJSON (nlohmann::json& j)
     {
         j["message_type"] = "ads-b target";
         j["version"] = "1.0";
